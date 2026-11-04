@@ -13,8 +13,7 @@ class SettingsScreen extends ConsumerWidget {
     final ThemeData theme = Theme.of(context);
     final AppLocalizations l10n = AppLocalizations.of(context);
     final AppSettings settings =
-        ref.watch(settingsControllerProvider).value ??
-        const AppSettings();
+        ref.watch(settingsControllerProvider).value ?? const AppSettings();
     final SettingsController controller = ref.read(
       settingsControllerProvider.notifier,
     );
@@ -62,6 +61,58 @@ class SettingsScreen extends ConsumerWidget {
             onSelectionChanged: (Set<String> selection) {
               final String value = selection.first;
               controller.setLocale(value == 'system' ? null : Locale(value));
+            },
+          ),
+          const SizedBox(height: 28),
+          _SectionTitle(label: l10n.notesDisplay),
+          const SizedBox(height: 10),
+          SegmentedButton<String>(
+            segments: <ButtonSegment<String>>[
+              ButtonSegment<String>(
+                value: 'grid',
+                icon: const Icon(Icons.grid_view_rounded),
+                label: Text(l10n.viewGrid),
+              ),
+              ButtonSegment<String>(
+                value: 'list',
+                icon: const Icon(Icons.view_agenda_outlined),
+                label: Text(l10n.viewList),
+              ),
+            ],
+            selected: <String>{settings.viewMode},
+            onSelectionChanged: (Set<String> selection) {
+              controller.setViewMode(selection.first);
+            },
+          ),
+          const SizedBox(height: 14),
+          DropdownButtonFormField<String>(
+            initialValue: settings.sortOrder,
+            decoration: InputDecoration(
+              labelText: l10n.sortBy,
+              border: const OutlineInputBorder(),
+            ),
+            items: <DropdownMenuItem<String>>[
+              DropdownMenuItem<String>(
+                value: 'updatedDesc',
+                child: Text(l10n.sortUpdatedDesc),
+              ),
+              DropdownMenuItem<String>(
+                value: 'updatedAsc',
+                child: Text(l10n.sortUpdatedAsc),
+              ),
+              DropdownMenuItem<String>(
+                value: 'createdDesc',
+                child: Text(l10n.sortCreatedDesc),
+              ),
+              DropdownMenuItem<String>(
+                value: 'titleAsc',
+                child: Text(l10n.sortTitleAsc),
+              ),
+            ],
+            onChanged: (String? value) {
+              if (value != null) {
+                controller.setSortOrder(value);
+              }
             },
           ),
           const SizedBox(height: 28),

@@ -143,4 +143,210 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get passwordChanged => 'تم تحديث كلمة المرور بنجاح.';
+
+  @override
+  String get untitledNote => 'بدون عنوان';
+
+  @override
+  String get noteEditorNew => 'ملاحظة جديدة';
+
+  @override
+  String get noteEditorEdit => 'تعديل الملاحظة';
+
+  @override
+  String get noteTitleHint => 'العنوان';
+
+  @override
+  String get noteBodyHint => 'ابدأ الكتابة...';
+
+  @override
+  String get saveNote => 'حفظ الملاحظة';
+
+  @override
+  String get deleteNote => 'حذف الملاحظة';
+
+  @override
+  String get deleteNoteConfirm => 'نقل هذه الملاحظة إلى سلة المهملات؟';
+
+  @override
+  String get cancel => 'إلغاء';
+
+  @override
+  String get delete => 'حذف';
+
+  @override
+  String get noteSaved => 'تم حفظ الملاحظة';
+
+  @override
+  String get movedToTrash => 'تم النقل إلى سلة المهملات';
+
+  @override
+  String get undo => 'تراجع';
+
+  @override
+  String get trash => 'سلة المهملات';
+
+  @override
+  String get restore => 'استعادة';
+
+  @override
+  String get deleteForever => 'حذف نهائي';
+
+  @override
+  String get deleteForeverConfirm =>
+      'حذف هذه الملاحظة نهائيًا؟ لا يمكن التراجع عن ذلك.';
+
+  @override
+  String get emptyTrash => 'سلة المهملات فارغة';
+
+  @override
+  String get sortBy => 'ترتيب حسب';
+
+  @override
+  String get sortUpdatedDesc => 'الأحدث أولًا';
+
+  @override
+  String get sortUpdatedAsc => 'الأقدم أولًا';
+
+  @override
+  String get sortCreatedDesc => 'أُنشئت مؤخرًا';
+
+  @override
+  String get sortTitleAsc => 'العنوان أ-ي';
+
+  @override
+  String get viewGrid => 'عرض شبكي';
+
+  @override
+  String get viewList => 'عرض قائمة';
+
+  @override
+  String get searchNotes => 'البحث في الملاحظات';
+
+  @override
+  String get noSearchResults => 'لا توجد ملاحظات مطابقة';
+
+  @override
+  String get filterAll => 'الكل';
+
+  @override
+  String get filterText => 'نص';
+
+  @override
+  String get filterAudio => 'صوت';
+
+  @override
+  String get filterImage => 'صور';
+
+  @override
+  String get filterFiles => 'ملفات';
+
+  @override
+  String get colorLabel => 'اللون';
+
+  @override
+  String get pin => 'تثبيت';
+
+  @override
+  String get unpin => 'إلغاء التثبيت';
+
+  @override
+  String get moreOptions => 'المزيد';
+
+  @override
+  String get discardChanges => 'تجاهل التغييرات؟';
+
+  @override
+  String get keepEditing => 'متابعة التعديل';
+
+  @override
+  String get discard => 'تجاهل';
+
+  @override
+  String get noteType => 'النوع';
+
+  @override
+  String get emptyNoteError => 'أضف عنوانًا أو نصًا أولًا.';
+
+  @override
+  String get notesDisplay => 'عرض الملاحظات';
+
+  @override
+  String get attachments => 'المرفقات';
+
+  @override
+  String get addImage => 'صورة';
+
+  @override
+  String get addAudio => 'تسجيل';
+
+  @override
+  String get addFile => 'ملف';
+
+  @override
+  String get pendingAttachmentsHint => 'ستُحفظ المرفقات مع الملاحظة.';
+
+  @override
+  String get removeAttachment => 'إزالة المرفق';
+
+  @override
+  String get attachmentTooLarge => 'هذا الملف كبير جدًا.';
+
+  @override
+  String get attachmentFailed => 'تعذر إضافة المرفق.';
+
+  @override
+  String get fileMissing => 'الملف مفقود';
+
+  @override
+  String get microphoneDenied => 'إذن الميكروفون مطلوب لتسجيل الصوت.';
+
+  @override
+  String get recordingFailed => 'فشل التسجيل. حاول مرة أخرى.';
+
+  @override
+  String get recordAudio => 'تسجيل صوتي';
+
+  @override
+  String get recording => 'جارٍ التسجيل';
+
+  @override
+  String get stopRecording => 'إيقاف';
+
+  @override
+  String get useRecording => 'استخدام التسجيل';
+
+  @override
+  String get audioPlaybackFailed => 'تعذر تشغيل هذا الصوت.';
+
+  @override
+  String get reminders => 'تذكير';
+
+  @override
+  String get addReminder => 'إضافة تذكير';
+
+  @override
+  String get removeReminder => 'إزالة التذكير';
+
+  @override
+  String get reminderInPast => 'اختر وقتًا في المستقبل.';
+
+  @override
+  String reminderSet(String date) {
+    return 'تم ضبط التذكير في $date';
+  }
+
+  @override
+  String get reminderNotificationBody => 'لديك تذكير بملاحظة.';
+
+  @override
+  String get reminderFailed => 'تعذر ضبط التذكير.';
+
+  @override
+  String get notificationsDisabled => 'الإشعارات معطلة لتطبيق Notes-Tech.';
+
+  @override
+  String editedDate(String date) {
+    return 'عُدّلت $date';
+  }
 }

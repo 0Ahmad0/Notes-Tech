@@ -33,6 +33,20 @@ class SettingsController extends AsyncNotifier<AppSettings> {
     await ref.read(settingsRepositoryProvider).saveLocale(_userId, locale);
   }
 
+  Future<void> setViewMode(String viewMode) async {
+    final AppSettings current = state.value ?? const AppSettings();
+    state = AsyncData<AppSettings>(current.copyWith(viewMode: viewMode));
+    await ref.read(settingsRepositoryProvider).saveViewMode(_userId, viewMode);
+  }
+
+  Future<void> setSortOrder(String sortOrder) async {
+    final AppSettings current = state.value ?? const AppSettings();
+    state = AsyncData<AppSettings>(current.copyWith(sortOrder: sortOrder));
+    await ref
+        .read(settingsRepositoryProvider)
+        .saveSortOrder(_userId, sortOrder);
+  }
+
   String? get _userId => ref.read(authControllerProvider).value?.id;
 }
 

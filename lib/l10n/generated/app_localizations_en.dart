@@ -144,4 +144,213 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get passwordChanged => 'Password updated successfully.';
+
+  @override
+  String get untitledNote => 'Untitled';
+
+  @override
+  String get noteEditorNew => 'New note';
+
+  @override
+  String get noteEditorEdit => 'Edit note';
+
+  @override
+  String get noteTitleHint => 'Title';
+
+  @override
+  String get noteBodyHint => 'Start writing...';
+
+  @override
+  String get saveNote => 'Save note';
+
+  @override
+  String get deleteNote => 'Delete note';
+
+  @override
+  String get deleteNoteConfirm => 'Move this note to trash?';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get noteSaved => 'Note saved';
+
+  @override
+  String get movedToTrash => 'Moved to trash';
+
+  @override
+  String get undo => 'Undo';
+
+  @override
+  String get trash => 'Trash';
+
+  @override
+  String get restore => 'Restore';
+
+  @override
+  String get deleteForever => 'Delete forever';
+
+  @override
+  String get deleteForeverConfirm =>
+      'Permanently delete this note? This cannot be undone.';
+
+  @override
+  String get emptyTrash => 'Trash is empty';
+
+  @override
+  String get sortBy => 'Sort by';
+
+  @override
+  String get sortUpdatedDesc => 'Newest first';
+
+  @override
+  String get sortUpdatedAsc => 'Oldest first';
+
+  @override
+  String get sortCreatedDesc => 'Recently created';
+
+  @override
+  String get sortTitleAsc => 'Title A-Z';
+
+  @override
+  String get viewGrid => 'Grid view';
+
+  @override
+  String get viewList => 'List view';
+
+  @override
+  String get searchNotes => 'Search notes';
+
+  @override
+  String get noSearchResults => 'No matching notes';
+
+  @override
+  String get filterAll => 'All';
+
+  @override
+  String get filterText => 'Text';
+
+  @override
+  String get filterAudio => 'Audio';
+
+  @override
+  String get filterImage => 'Images';
+
+  @override
+  String get filterFiles => 'Files';
+
+  @override
+  String get colorLabel => 'Color';
+
+  @override
+  String get pin => 'Pin';
+
+  @override
+  String get unpin => 'Unpin';
+
+  @override
+  String get moreOptions => 'More';
+
+  @override
+  String get discardChanges => 'Discard changes?';
+
+  @override
+  String get keepEditing => 'Keep editing';
+
+  @override
+  String get discard => 'Discard';
+
+  @override
+  String get noteType => 'Type';
+
+  @override
+  String get emptyNoteError => 'Add a title or some text first.';
+
+  @override
+  String get notesDisplay => 'Notes display';
+
+  @override
+  String get attachments => 'Attachments';
+
+  @override
+  String get addImage => 'Image';
+
+  @override
+  String get addAudio => 'Record';
+
+  @override
+  String get addFile => 'File';
+
+  @override
+  String get pendingAttachmentsHint =>
+      'Attachments will be saved with the note.';
+
+  @override
+  String get removeAttachment => 'Remove attachment';
+
+  @override
+  String get attachmentTooLarge => 'That file is too large.';
+
+  @override
+  String get attachmentFailed => 'Could not add the attachment.';
+
+  @override
+  String get fileMissing => 'File missing';
+
+  @override
+  String get microphoneDenied =>
+      'Microphone permission is needed to record audio.';
+
+  @override
+  String get recordingFailed => 'Recording failed. Please try again.';
+
+  @override
+  String get recordAudio => 'Record audio';
+
+  @override
+  String get recording => 'Recording';
+
+  @override
+  String get stopRecording => 'Stop';
+
+  @override
+  String get useRecording => 'Use recording';
+
+  @override
+  String get audioPlaybackFailed => 'Could not play this audio.';
+
+  @override
+  String get reminders => 'Reminder';
+
+  @override
+  String get addReminder => 'Add reminder';
+
+  @override
+  String get removeReminder => 'Remove reminder';
+
+  @override
+  String get reminderInPast => 'Choose a time in the future.';
+
+  @override
+  String reminderSet(String date) {
+    return 'Reminder set for $date';
+  }
+
+  @override
+  String get reminderNotificationBody => 'You have a note reminder.';
+
+  @override
+  String get reminderFailed => 'Could not set the reminder.';
+
+  @override
+  String get notificationsDisabled =>
+      'Notifications are disabled for Notes-Tech.';
+
+  @override
+  String editedDate(String date) {
+    return 'Edited $date';
+  }
 }

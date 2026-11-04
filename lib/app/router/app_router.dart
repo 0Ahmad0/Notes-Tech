@@ -8,6 +8,8 @@ import '../../features/auth/presentation/login_screen.dart';
 import '../../features/auth/presentation/register_screen.dart';
 import '../../features/auth/presentation/splash_screen.dart';
 import '../../features/notes/presentation/home_screen.dart';
+import '../../features/notes/presentation/note_editor_screen.dart';
+import '../../features/notes/presentation/trash_screen.dart';
 import '../../features/profile/presentation/change_password_screen.dart';
 import '../../features/profile/presentation/profile_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
@@ -63,6 +65,21 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
         path: '/home',
         builder: (BuildContext context, GoRouterState state) =>
             const HomeScreen(),
+      ),
+      GoRoute(
+        path: '/notes/new',
+        builder: (BuildContext context, GoRouterState state) =>
+            const NoteEditorScreen(),
+      ),
+      GoRoute(
+        path: '/notes/:id',
+        builder: (BuildContext context, GoRouterState state) =>
+            NoteEditorScreen(noteId: state.pathParameters['id']),
+      ),
+      GoRoute(
+        path: '/trash',
+        builder: (BuildContext context, GoRouterState state) =>
+            const TrashScreen(),
       ),
       GoRoute(
         path: '/profile',

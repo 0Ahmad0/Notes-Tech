@@ -361,6 +361,408 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Password updated successfully.'**
   String get passwordChanged;
+
+  /// No description provided for @untitledNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Untitled'**
+  String get untitledNote;
+
+  /// No description provided for @noteEditorNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New note'**
+  String get noteEditorNew;
+
+  /// No description provided for @noteEditorEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit note'**
+  String get noteEditorEdit;
+
+  /// No description provided for @noteTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get noteTitleHint;
+
+  /// No description provided for @noteBodyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Start writing...'**
+  String get noteBodyHint;
+
+  /// No description provided for @saveNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Save note'**
+  String get saveNote;
+
+  /// No description provided for @deleteNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete note'**
+  String get deleteNote;
+
+  /// No description provided for @deleteNoteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Move this note to trash?'**
+  String get deleteNoteConfirm;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// No description provided for @noteSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Note saved'**
+  String get noteSaved;
+
+  /// No description provided for @movedToTrash.
+  ///
+  /// In en, this message translates to:
+  /// **'Moved to trash'**
+  String get movedToTrash;
+
+  /// No description provided for @undo.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get undo;
+
+  /// No description provided for @trash.
+  ///
+  /// In en, this message translates to:
+  /// **'Trash'**
+  String get trash;
+
+  /// No description provided for @restore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get restore;
+
+  /// No description provided for @deleteForever.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete forever'**
+  String get deleteForever;
+
+  /// No description provided for @deleteForeverConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Permanently delete this note? This cannot be undone.'**
+  String get deleteForeverConfirm;
+
+  /// No description provided for @emptyTrash.
+  ///
+  /// In en, this message translates to:
+  /// **'Trash is empty'**
+  String get emptyTrash;
+
+  /// No description provided for @sortBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort by'**
+  String get sortBy;
+
+  /// No description provided for @sortUpdatedDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest first'**
+  String get sortUpdatedDesc;
+
+  /// No description provided for @sortUpdatedAsc.
+  ///
+  /// In en, this message translates to:
+  /// **'Oldest first'**
+  String get sortUpdatedAsc;
+
+  /// No description provided for @sortCreatedDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Recently created'**
+  String get sortCreatedDesc;
+
+  /// No description provided for @sortTitleAsc.
+  ///
+  /// In en, this message translates to:
+  /// **'Title A-Z'**
+  String get sortTitleAsc;
+
+  /// No description provided for @viewGrid.
+  ///
+  /// In en, this message translates to:
+  /// **'Grid view'**
+  String get viewGrid;
+
+  /// No description provided for @viewList.
+  ///
+  /// In en, this message translates to:
+  /// **'List view'**
+  String get viewList;
+
+  /// No description provided for @searchNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Search notes'**
+  String get searchNotes;
+
+  /// No description provided for @noSearchResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching notes'**
+  String get noSearchResults;
+
+  /// No description provided for @filterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get filterAll;
+
+  /// No description provided for @filterText.
+  ///
+  /// In en, this message translates to:
+  /// **'Text'**
+  String get filterText;
+
+  /// No description provided for @filterAudio.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio'**
+  String get filterAudio;
+
+  /// No description provided for @filterImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Images'**
+  String get filterImage;
+
+  /// No description provided for @filterFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Files'**
+  String get filterFiles;
+
+  /// No description provided for @colorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Color'**
+  String get colorLabel;
+
+  /// No description provided for @pin.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin'**
+  String get pin;
+
+  /// No description provided for @unpin.
+  ///
+  /// In en, this message translates to:
+  /// **'Unpin'**
+  String get unpin;
+
+  /// No description provided for @moreOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get moreOptions;
+
+  /// No description provided for @discardChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard changes?'**
+  String get discardChanges;
+
+  /// No description provided for @keepEditing.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep editing'**
+  String get keepEditing;
+
+  /// No description provided for @discard.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard'**
+  String get discard;
+
+  /// No description provided for @noteType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get noteType;
+
+  /// No description provided for @emptyNoteError.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a title or some text first.'**
+  String get emptyNoteError;
+
+  /// No description provided for @notesDisplay.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes display'**
+  String get notesDisplay;
+
+  /// No description provided for @attachments.
+  ///
+  /// In en, this message translates to:
+  /// **'Attachments'**
+  String get attachments;
+
+  /// No description provided for @addImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Image'**
+  String get addImage;
+
+  /// No description provided for @addAudio.
+  ///
+  /// In en, this message translates to:
+  /// **'Record'**
+  String get addAudio;
+
+  /// No description provided for @addFile.
+  ///
+  /// In en, this message translates to:
+  /// **'File'**
+  String get addFile;
+
+  /// No description provided for @pendingAttachmentsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Attachments will be saved with the note.'**
+  String get pendingAttachmentsHint;
+
+  /// No description provided for @removeAttachment.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove attachment'**
+  String get removeAttachment;
+
+  /// No description provided for @attachmentTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'That file is too large.'**
+  String get attachmentTooLarge;
+
+  /// No description provided for @attachmentFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not add the attachment.'**
+  String get attachmentFailed;
+
+  /// No description provided for @fileMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'File missing'**
+  String get fileMissing;
+
+  /// No description provided for @microphoneDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone permission is needed to record audio.'**
+  String get microphoneDenied;
+
+  /// No description provided for @recordingFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Recording failed. Please try again.'**
+  String get recordingFailed;
+
+  /// No description provided for @recordAudio.
+  ///
+  /// In en, this message translates to:
+  /// **'Record audio'**
+  String get recordAudio;
+
+  /// No description provided for @recording.
+  ///
+  /// In en, this message translates to:
+  /// **'Recording'**
+  String get recording;
+
+  /// No description provided for @stopRecording.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get stopRecording;
+
+  /// No description provided for @useRecording.
+  ///
+  /// In en, this message translates to:
+  /// **'Use recording'**
+  String get useRecording;
+
+  /// No description provided for @audioPlaybackFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not play this audio.'**
+  String get audioPlaybackFailed;
+
+  /// No description provided for @reminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder'**
+  String get reminders;
+
+  /// No description provided for @addReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Add reminder'**
+  String get addReminder;
+
+  /// No description provided for @removeReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove reminder'**
+  String get removeReminder;
+
+  /// No description provided for @reminderInPast.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a time in the future.'**
+  String get reminderInPast;
+
+  /// No description provided for @reminderSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder set for {date}'**
+  String reminderSet(String date);
+
+  /// No description provided for @reminderNotificationBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You have a note reminder.'**
+  String get reminderNotificationBody;
+
+  /// No description provided for @reminderFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not set the reminder.'**
+  String get reminderFailed;
+
+  /// No description provided for @notificationsDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are disabled for Notes-Tech.'**
+  String get notificationsDisabled;
+
+  /// No description provided for @editedDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Edited {date}'**
+  String editedDate(String date);
 }
 
 class _AppLocalizationsDelegate

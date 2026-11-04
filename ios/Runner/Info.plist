@@ -47,6 +47,12 @@
 			</array>
 		</dict>
 	</dict>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Notes-Tech uses the microphone to record audio notes.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Notes-Tech lets you attach photos to your notes.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Notes-Tech can save images you attach to your notes.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

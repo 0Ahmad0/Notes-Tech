@@ -13,11 +13,15 @@ final class AppLogger {
     _write('WARN', message);
   }
 
-  void error(String message, [Object? error]) {
-    _write(
-      'ERROR',
-      error == null ? message : '$message | ${error.runtimeType}',
-    );
+  void error(String message, [Object? error, StackTrace? stackTrace]) {
+    final StringBuffer buffer = StringBuffer(message);
+    if (error != null) {
+      buffer.write(' | $error');
+    }
+    if (stackTrace != null) {
+      buffer.write('\n$stackTrace');
+    }
+    _write('ERROR', buffer.toString());
   }
 
   void _write(String level, String message) {

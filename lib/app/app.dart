@@ -15,8 +15,7 @@ class NotesTechApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final GoRouter router = ref.watch(routerProvider);
     final AppSettings settings =
-        ref.watch(settingsControllerProvider).value ??
-        const AppSettings();
+        ref.watch(settingsControllerProvider).value ?? const AppSettings();
 
     return MaterialApp.router(
       title: 'Notes-Tech',
