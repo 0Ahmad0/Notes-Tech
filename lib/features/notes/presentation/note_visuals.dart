@@ -34,6 +34,19 @@ String noteDisplayTitle(AppLocalizations l10n, Note note) {
   return l10n.untitledNote;
 }
 
+String noteColorLabel(AppLocalizations l10n, String key) {
+  return switch (key) {
+    'yellow' => l10n.colorYellow,
+    'mint' => l10n.colorMint,
+    'sky' => l10n.colorSky,
+    'lavender' => l10n.colorLavender,
+    'peach' => l10n.colorPeach,
+    'rose' => l10n.colorRose,
+    'slate' => l10n.colorSlate,
+    _ => l10n.colorDefault,
+  };
+}
+
 String notePreview(Note note) {
   return note.body.trim().replaceAll(RegExp(r'\s+'), ' ');
 }

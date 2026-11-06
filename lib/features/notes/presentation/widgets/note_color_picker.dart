@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../app/theme/app_colors.dart';
 import '../../../../l10n/generated/app_localizations.dart';
+import '../note_visuals.dart';
 
 Future<String?> showNoteColorPicker(
   BuildContext context, {
@@ -28,6 +29,7 @@ Future<String?> showNoteColorPicker(
                 children: <Widget>[
                   _ColorDot(
                     keyValue: 'default',
+                    label: l10n.colorDefault,
                     selected: selected == 'default',
                     surface: theme.colorScheme.surfaceContainerHighest,
                     ink: theme.colorScheme.onSurface,
@@ -35,6 +37,7 @@ Future<String?> showNoteColorPicker(
                   ...AppColors.noteKeys.map((String key) {
                     return _ColorDot(
                       keyValue: key,
+                      label: noteColorLabel(l10n, key),
                       selected: selected == key,
                       surface: AppColors.noteSurface(key, theme.brightness),
                       ink: AppColors.onNoteSurface(key, theme.brightness),
@@ -53,37 +56,44 @@ Future<String?> showNoteColorPicker(
 class _ColorDot extends StatelessWidget {
   const _ColorDot({
     required this.keyValue,
+    required this.label,
     required this.selected,
     required this.surface,
     required this.ink,
   });
 
   final String keyValue;
+  final String label;
   final bool selected;
   final Color surface;
   final Color ink;
 
   @override
   Widget build(BuildContext context) {
-    return InkResponse(
-      onTap: () => Navigator.of(context).pop(keyValue),
-      radius: 30,
-      child: Container(
-        width: 46,
-        height: 46,
-        decoration: BoxDecoration(
-          color: surface,
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: selected
-                ? Theme.of(context).colorScheme.primary
-                : Theme.of(context).colorScheme.outlineVariant,
-            width: selected ? 2.5 : 1,
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: label,
+      child: InkResponse(
+        onTap: () => Navigator.of(context).pop(keyValue),
+        radius: 30,
+        child: Container(
+          width: 48,
+          height: 48,
+          decoration: BoxDecoration(
+            color: surface,
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: selected
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.outlineVariant,
+              width: selected ? 2.5 : 1,
+            ),
           ),
+          child: selected
+              ? Icon(Icons.check_rounded, size: 22, color: ink)
+              : null,
         ),
-        child: selected
-            ? Icon(Icons.check_rounded, size: 22, color: ink)
-            : null,
       ),
     );
   }

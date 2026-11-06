@@ -3,8 +3,8 @@
 > **Project:** Flutter Notes App  
 > **Approach:** Offline-first, feature-first modular architecture  
 > **Phases:** 1. Complete Local App → 2. Firebase Authentication & Sync  
-> **Updated:** 2026-11-04  
-> **Status:** Planning  
+> **Updated:** 2026-11-06  
+> **Status:** Phase 1 implementation  
 > **Platforms:** Android / iOS initially (confirm desktop/web support separately)
 
 ## 0. Product vision and scope
@@ -285,7 +285,7 @@ notes_app/
 ### EPIC 03 — Local persistence and file system
 
 - [ ] **T03.01** Define Drift tables, constraints, foreign keys, indexes and migration strategy. **DoD:** schema documented + generated code committed as appropriate.
-- [ ] **T03.02** Build DB singleton/provider and owner-scoped DAO queries. **DoD:** accounts cannot query each other's data through repositories.
+- [x] **T03.02** Build DB singleton/provider and owner-scoped DAO queries. **DoD:** accounts cannot query each other's data through repositories.
 - [ ] **T03.03** Add migration, transaction and repository tests using in-memory DB. **DoD:** create/update/delete/read tests pass.
 - [ ] **T03.04** Implement app-private media service (copy, read, rename, safe delete, path resolution). **DoD:** picked files persist after temp cache cleanup.
 - [ ] **T03.05** Add safe rollback/cleanup for failed note+attachment writes and orphan cleanup. **DoD:** no broken references after interrupted operations.
@@ -314,7 +314,7 @@ notes_app/
 - [ ] **T05.05** Add search across title/body (local only), debounced input. **DoD:** empty/results/error cases covered.
 - [ ] **T05.06** Implement note color picker and correct contrast in both themes. **DoD:** colors persist and remain legible.
 - [ ] **T05.07** Build text note editor, unsaved changes and keyboard interaction. **DoD:** tested for long Arabic/English text.
-- [ ] **T05.08** Add deletion confirmation/undo and Trash flow. **DoD:** accidental delete recoverable.
+- [x] **T05.08** Add deletion confirmation/undo and Trash flow. **DoD:** accidental delete recoverable.
 
 **Dependencies:** EPIC 02, 03, 04. **Priority:** P0.
 
@@ -339,7 +339,7 @@ notes_app/
 - [ ] **T07.05** Configure required notification receivers, reboot rescheduling (`RECEIVE_BOOT_COMPLETED`) and version-specific manifest/Gradle/desugaring settings **as documented by pinned plugin**. **DoD:** reminders reappear after reboot as supported.
 - [ ] **T07.06** Schedule notification on creation; cancel/reschedule on note edit, reminder edit, deletion, logout/account switch, and profile removal. **DoD:** no stale or cross-account notifications.
 - [ ] **T07.07** Handle permission revoked, time/timezone changes, daylight saving, app upgrade and Android battery restrictions. **DoD:** user sees clear degraded state where delivery can be delayed.
-- [ ] **T07.08** Handle notification taps via navigation to the owned note; test cold start and locked screen. **DoD:** correct note opens after account authorization.
+- [x] **T07.08** Handle notification taps via navigation to the owned note; test cold start and locked screen. **DoD:** correct note opens after account authorization.
 - [ ] **T07.09** Test on real Android 12/13/14/15+ devices or emulators, plus iOS permissions and behavior. **DoD:** scenario matrix signed off.
 
 **Dependencies:** EPIC 02, 03, 04, 05. **Priority:** P0.
@@ -359,11 +359,11 @@ Avoid requesting `MANAGE_EXTERNAL_STORAGE`, broad media permissions, `USE_EXACT_
 
 ### EPIC 08 — Settings and polish
 
-- [ ] **T08.01** Build settings screen for theme, language, font, notification status and view preference. **DoD:** every setting persists and immediately updates UI.
-- [ ] **T08.02** Add skeleton/empty/error UX for all note types and denied permissions. **DoD:** no blank or broken screens.
-- [ ] **T08.03** Add accessibility labels, focus order, min touch targets and screen-reader checks. **DoD:** Arabic/English supported.
+- [x] **T08.01** Build settings screen for theme, language, font, notification status and view preference. **DoD:** every setting persists and immediately updates UI.
+- [x] **T08.02** Add skeleton/empty/error UX for all note types and denied permissions. **DoD:** no blank or broken screens.
+- [x] **T08.03** Add accessibility labels, focus order, min touch targets and screen-reader checks. **DoD:** Arabic/English supported.
 - [ ] **T08.04** Optimize long lists, thumbnails, audio disposal and DB query indexes based on profiling. **DoD:** no obvious frame jank on midrange device with 1,000+ notes.
-- [ ] **T08.05** Add privacy/data retention explanation, local-only warning and optional app lock/backups roadmap. **DoD:** no false cloud-backup claims.
+- [x] **T08.05** Add privacy/data retention explanation, local-only warning and optional app lock/backups roadmap. **DoD:** no false cloud-backup claims.
 
 **Dependencies:** EPIC 05, 06, 07. **Priority:** P1.
 
@@ -374,7 +374,7 @@ Avoid requesting `MANAGE_EXTERNAL_STORAGE`, broad media permissions, `USE_EXACT_
 - [ ] **T09.03** Widget tests: login, home grid/list, note editors, theme, RTL, settings.
 - [ ] **T09.04** Integration tests: local signup → create all note types → set reminder → relaunch → update/delete/restore.
 - [ ] **T09.05** Lifecycle tests: notification permission revoked, reboot, app force-stop, file picker cancellation, low disk and offline usage.
-- [ ] **T09.06** CI pipeline: `dart format --output=none --set-exit-if-changed .`, `flutter analyze`, `flutter test` and Android build smoke test.
+- [x] **T09.06** CI pipeline: `dart format --output=none --set-exit-if-changed .`, `flutter analyze`, `flutter test` and Android build smoke test.
 - [ ] **T09.07** Manual QA for Arabic/English, light/dark, large text, Android/iOS and app upgrade/migration.
 - [ ] **T09.08** Tag release `v0.1.0-local` and archive build/test report. **DoD:** local milestone is usable entirely offline.
 

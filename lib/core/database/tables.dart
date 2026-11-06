@@ -9,7 +9,6 @@ class Users extends Table {
   TextColumn get salt => text()();
   TextColumn get hashParams => text()();
   TextColumn get avatarLocalPath => text().nullable()();
-  TextColumn get firebaseUid => text().nullable()();
   DateTimeColumn get createdAtUtc => dateTime()();
   DateTimeColumn get updatedAtUtc => dateTime()();
 
@@ -36,8 +35,6 @@ class Notes extends Table {
   DateTimeColumn get createdAtUtc => dateTime()();
   DateTimeColumn get updatedAtUtc => dateTime()();
   DateTimeColumn get deletedAtUtc => dateTime().nullable()();
-  IntColumn get revision => integer().withDefault(const Constant(1))();
-  TextColumn get syncState => text().withDefault(const Constant('localOnly'))();
 
   @override
   Set<Column<Object>> get primaryKey => <Column<Object>>{id};
@@ -56,8 +53,6 @@ class Attachments extends Table {
   IntColumn get byteSize => integer().withDefault(const Constant(0))();
   TextColumn get checksum => text().nullable()();
   IntColumn get durationMs => integer().nullable()();
-  TextColumn get remoteStoragePath => text().nullable()();
-  TextColumn get syncState => text().withDefault(const Constant('localOnly'))();
   DateTimeColumn get deletedAtUtc => dateTime().nullable()();
 
   @override
@@ -96,21 +91,4 @@ class UserPreferences extends Table {
 
   @override
   Set<Column<Object>> get primaryKey => <Column<Object>>{ownerId};
-}
-
-@DataClassName('SyncOutboxRow')
-class SyncOutbox extends Table {
-  TextColumn get id => text()();
-  TextColumn get ownerId => text()();
-  TextColumn get entityType => text()();
-  TextColumn get entityId => text()();
-  TextColumn get operation => text()();
-  IntColumn get payloadRevision => integer().withDefault(const Constant(0))();
-  IntColumn get attempts => integer().withDefault(const Constant(0))();
-  DateTimeColumn get nextRetryAtUtc => dateTime().nullable()();
-  TextColumn get lastError => text().nullable()();
-  DateTimeColumn get createdAtUtc => dateTime()();
-
-  @override
-  Set<Column<Object>> get primaryKey => <Column<Object>>{id};
 }

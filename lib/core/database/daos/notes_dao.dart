@@ -30,39 +30,47 @@ class NotesDao extends DatabaseAccessor<AppDatabase> with _$NotesDaoMixin {
     return query.watch();
   }
 
-  Future<NoteRow?> findById(String id) {
-    return (select(notes)..where((t) => t.id.equals(id))).getSingleOrNull();
+  Future<NoteRow?> findById(String ownerId, String id) {
+    return (select(notes)
+          ..where((t) => t.ownerId.equals(ownerId) & t.id.equals(id)))
+        .getSingleOrNull();
   }
 
   Future<void> insertNote(NotesCompanion note) {
     return into(notes).insert(note);
   }
 
-  Future<void> updateNote(String id, NotesCompanion note) {
-    return (update(notes)..where((t) => t.id.equals(id))).write(note);
+  Future<void> updateNote(String ownerId, String id, NotesCompanion note) {
+    return (update(
+      notes,
+    )..where((t) => t.ownerId.equals(ownerId) & t.id.equals(id))).write(note);
   }
 
-  Future<void> softDelete(String id) {
-    return (update(notes)..where((t) => t.id.equals(id))).write(
+  Future<void> softDelete(String ownerId, String id) {
+    return (update(
+      notes,
+    )..where((t) => t.ownerId.equals(ownerId) & t.id.equals(id))).write(
       NotesCompanion(
         deletedAtUtc: Value<DateTime>(DateTime.now().toUtc()),
         updatedAtUtc: Value<DateTime>(DateTime.now().toUtc()),
-        syncState: const Value<String>('pending'),
       ),
     );
   }
 
-  Future<void> restore(String id) {
-    return (update(notes)..where((t) => t.id.equals(id))).write(
+  Future<void> restore(String ownerId, String id) {
+    return (update(
+      notes,
+    )..where((t) => t.ownerId.equals(ownerId) & t.id.equals(id))).write(
       NotesCompanion(
         deletedAtUtc: const Value<DateTime?>(null),
         updatedAtUtc: Value<DateTime>(DateTime.now().toUtc()),
-        syncState: const Value<String>('pending'),
       ),
     );
   }
 
-  Future<int> deleteForever(String id) {
-    return (delete(notes)..where((t) => t.id.equals(id))).go();
+  Future<int> deleteForever(String ownerId, String id) {
+    return (delete(
+      notes,
+    )..where((t) => t.ownerId.equals(ownerId) & t.id.equals(id))).go();
   }
 }

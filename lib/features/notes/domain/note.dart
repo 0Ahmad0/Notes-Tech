@@ -24,7 +24,6 @@ final class Note {
     required this.isArchived,
     required this.createdAtUtc,
     required this.updatedAtUtc,
-    required this.revision,
     this.deletedAtUtc,
   });
 
@@ -39,7 +38,6 @@ final class Note {
   final DateTime createdAtUtc;
   final DateTime updatedAtUtc;
   final DateTime? deletedAtUtc;
-  final int revision;
 
   bool get isDeleted => deletedAtUtc != null;
 
@@ -65,7 +63,6 @@ final class Note {
       createdAtUtc: createdAtUtc,
       updatedAtUtc: updatedAtUtc,
       deletedAtUtc: deletedAtUtc,
-      revision: revision,
     );
   }
 }

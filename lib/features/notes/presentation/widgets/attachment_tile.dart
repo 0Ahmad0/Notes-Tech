@@ -188,6 +188,7 @@ class _ImageTile extends StatelessWidget {
                 top: 4,
                 right: 4,
                 child: IconButton.filledTonal(
+                  tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
                   onPressed: () => Navigator.of(context).pop(),
                   icon: const Icon(Icons.close_rounded),
                 ),
@@ -355,6 +356,7 @@ class _AudioAttachmentPlayerState extends State<AudioAttachmentPlayer> {
                   final bool completed =
                       state?.processingState == ProcessingState.completed;
                   return IconButton.filledTonal(
+                    tooltip: playing ? l10n.pauseAudio : l10n.playAudio,
                     onPressed: _loading ? null : _toggle,
                     icon: _loading
                         ? const SizedBox(

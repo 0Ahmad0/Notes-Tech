@@ -39,19 +39,45 @@ class NoteEditorScreen extends ConsumerWidget {
       ),
       error: (Object error, StackTrace stack) => Scaffold(
         appBar: AppBar(),
-        body: Center(child: Text(AppLocalizations.of(context).unexpectedError)),
+        body: _NoteLoadError(
+          onRetry: () => ref.invalidate(noteByIdProvider(noteId!)),
+        ),
       ),
       data: (Note? value) {
         if (value == null) {
           return Scaffold(
             appBar: AppBar(),
-            body: Center(
-              child: Text(AppLocalizations.of(context).unexpectedError),
+            body: _NoteLoadError(
+              onRetry: () => ref.invalidate(noteByIdProvider(noteId!)),
             ),
           );
         }
         return _NoteForm(initial: value);
       },
+    );
+  }
+}
+
+class _NoteLoadError extends StatelessWidget {
+  const _NoteLoadError({required this.onRetry});
+
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    final AppLocalizations l10n = AppLocalizations.of(context);
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text(l10n.unexpectedError, textAlign: TextAlign.center),
+            const SizedBox(height: 12),
+            OutlinedButton(onPressed: onRetry, child: Text(l10n.retry)),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -240,7 +266,7 @@ class _NoteFormState extends ConsumerState<_NoteForm> {
     final ScaffoldMessengerState messenger = ScaffoldMessenger.of(context);
     final notesRepository = ref.read(notesRepositoryProvider);
     await ref.read(remindersRepositoryProvider).cancelForNote(note.id);
-    await notesRepository.moveToTrash(note.id);
+    await notesRepository.moveToTrash(note);
     _dirty = false;
     if (!mounted) {
       return;
@@ -251,7 +277,7 @@ class _NoteFormState extends ConsumerState<_NoteForm> {
         content: Text(l10n.movedToTrash),
         action: SnackBarAction(
           label: l10n.undo,
-          onPressed: () => notesRepository.restore(note.id),
+          onPressed: () => notesRepository.restore(note),
         ),
       ),
     );
@@ -511,6 +537,7 @@ class _NoteFormState extends ConsumerState<_NoteForm> {
               runSpacing: 14,
               children: <Widget>[
                 _ColorChoice(
+                  label: l10n.colorDefault,
                   selected: _colorKey == 'default',
                   surface: theme.colorScheme.surfaceContainerHighest,
                   ink: theme.colorScheme.onSurface,
@@ -523,6 +550,7 @@ class _NoteFormState extends ConsumerState<_NoteForm> {
                 ),
                 ...AppColors.noteKeys.map((String key) {
                   return _ColorChoice(
+                    label: noteColorLabel(l10n, key),
                     selected: _colorKey == key,
                     surface: AppColors.noteSurface(key, theme.brightness),
                     ink: AppColors.onNoteSurface(key, theme.brightness),
@@ -627,12 +655,14 @@ class _NoteFormState extends ConsumerState<_NoteForm> {
 
 class _ColorChoice extends StatelessWidget {
   const _ColorChoice({
+    required this.label,
     required this.selected,
     required this.surface,
     required this.ink,
     required this.onTap,
   });
 
+  final String label;
   final bool selected;
   final Color surface;
   final Color ink;
@@ -640,25 +670,30 @@ class _ColorChoice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkResponse(
-      onTap: onTap,
-      radius: 30,
-      child: Container(
-        width: 44,
-        height: 44,
-        decoration: BoxDecoration(
-          color: surface,
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: selected
-                ? Theme.of(context).colorScheme.primary
-                : Theme.of(context).colorScheme.outlineVariant,
-            width: selected ? 2.5 : 1,
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: label,
+      child: InkResponse(
+        onTap: onTap,
+        radius: 30,
+        child: Container(
+          width: 48,
+          height: 48,
+          decoration: BoxDecoration(
+            color: surface,
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: selected
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.outlineVariant,
+              width: selected ? 2.5 : 1,
+            ),
           ),
+          child: selected
+              ? Icon(Icons.check_rounded, size: 20, color: ink)
+              : null,
         ),
-        child: selected
-            ? Icon(Icons.check_rounded, size: 20, color: ink)
-            : null,
       ),
     );
   }

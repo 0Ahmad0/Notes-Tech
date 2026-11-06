@@ -710,6 +710,66 @@ abstract class AppLocalizations {
   /// **'Could not play this audio.'**
   String get audioPlaybackFailed;
 
+  /// No description provided for @playAudio.
+  ///
+  /// In en, this message translates to:
+  /// **'Play audio'**
+  String get playAudio;
+
+  /// No description provided for @pauseAudio.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause audio'**
+  String get pauseAudio;
+
+  /// No description provided for @colorDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get colorDefault;
+
+  /// No description provided for @colorYellow.
+  ///
+  /// In en, this message translates to:
+  /// **'Yellow'**
+  String get colorYellow;
+
+  /// No description provided for @colorMint.
+  ///
+  /// In en, this message translates to:
+  /// **'Mint'**
+  String get colorMint;
+
+  /// No description provided for @colorSky.
+  ///
+  /// In en, this message translates to:
+  /// **'Sky'**
+  String get colorSky;
+
+  /// No description provided for @colorLavender.
+  ///
+  /// In en, this message translates to:
+  /// **'Lavender'**
+  String get colorLavender;
+
+  /// No description provided for @colorPeach.
+  ///
+  /// In en, this message translates to:
+  /// **'Peach'**
+  String get colorPeach;
+
+  /// No description provided for @colorRose.
+  ///
+  /// In en, this message translates to:
+  /// **'Rose'**
+  String get colorRose;
+
+  /// No description provided for @colorSlate.
+  ///
+  /// In en, this message translates to:
+  /// **'Slate'**
+  String get colorSlate;
+
   /// No description provided for @reminders.
   ///
   /// In en, this message translates to:
@@ -757,6 +817,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Notifications are disabled for Notes-Tech.'**
   String get notificationsDisabled;
+
+  /// No description provided for @notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
+  /// No description provided for @notificationsOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are enabled.'**
+  String get notificationsOn;
+
+  /// No description provided for @notificationsOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are off.'**
+  String get notificationsOff;
+
+  /// No description provided for @enableNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable'**
+  String get enableNotifications;
+
+  /// No description provided for @font.
+  ///
+  /// In en, this message translates to:
+  /// **'Font'**
+  String get font;
+
+  /// No description provided for @fontSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get fontSystem;
+
+  /// No description provided for @fontPlexArabic.
+  ///
+  /// In en, this message translates to:
+  /// **'IBM Plex Arabic'**
+  String get fontPlexArabic;
+
+  /// No description provided for @privacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get privacy;
+
+  /// No description provided for @localOnlyNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Your notes are stored only on this device. There is no account server or cloud backup yet, so uninstalling the app or losing the device removes your data.'**
+  String get localOnlyNotice;
 
   /// No description provided for @editedDate.
   ///

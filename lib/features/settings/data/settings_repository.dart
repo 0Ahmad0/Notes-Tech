@@ -22,11 +22,15 @@ final class SettingsRepository {
     final String? sortOrder = await _preferences.getString(
       _key(userId, 'sortOrder'),
     );
+    final String? fontPreset = await _preferences.getString(
+      _key(userId, 'fontPreset'),
+    );
     return AppSettings(
       themeMode: _parseThemeMode(themeMode),
       locale: _parseLocale(locale),
       viewMode: viewMode ?? 'grid',
       sortOrder: sortOrder ?? 'updatedDesc',
+      fontPreset: fontPreset ?? 'system',
     );
   }
 
@@ -59,6 +63,13 @@ final class SettingsRepository {
       return;
     }
     await _preferences.setString(_key(userId, 'sortOrder'), sortOrder);
+  }
+
+  Future<void> saveFontPreset(String? userId, String fontPreset) async {
+    if (userId == null) {
+      return;
+    }
+    await _preferences.setString(_key(userId, 'fontPreset'), fontPreset);
   }
 
   String _key(String userId, String field) => 'settings.$userId.$field';

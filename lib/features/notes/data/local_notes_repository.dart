@@ -48,8 +48,8 @@ final class LocalNotesRepository implements NotesRepository {
   }
 
   @override
-  Future<Note?> findById(String id) async {
-    final NoteRow? row = await _database.notesDao.findById(id);
+  Future<Note?> findById({required String ownerId, required String id}) async {
+    final NoteRow? row = await _database.notesDao.findById(ownerId, id);
     return row == null ? null : _toNote(row);
   }
 
@@ -73,7 +73,6 @@ final class LocalNotesRepository implements NotesRepository {
       isArchived: false,
       createdAtUtc: now,
       updatedAtUtc: now,
-      revision: 1,
     );
     await _database.notesDao.insertNote(
       NotesCompanion.insert(
@@ -105,9 +104,9 @@ final class LocalNotesRepository implements NotesRepository {
       createdAtUtc: note.createdAtUtc,
       updatedAtUtc: now,
       deletedAtUtc: note.deletedAtUtc,
-      revision: note.revision + 1,
     );
     await _database.notesDao.updateNote(
+      note.ownerId,
       note.id,
       NotesCompanion(
         type: Value<String>(updated.type.name),
@@ -117,21 +116,22 @@ final class LocalNotesRepository implements NotesRepository {
         isPinned: Value<bool>(updated.isPinned),
         isArchived: Value<bool>(updated.isArchived),
         updatedAtUtc: Value<DateTime>(now),
-        revision: Value<int>(updated.revision),
-        syncState: const Value<String>('pending'),
       ),
     );
     return updated;
   }
 
   @override
-  Future<void> moveToTrash(String id) => _database.notesDao.softDelete(id);
+  Future<void> moveToTrash(Note note) =>
+      _database.notesDao.softDelete(note.ownerId, note.id);
 
   @override
-  Future<void> restore(String id) => _database.notesDao.restore(id);
+  Future<void> restore(Note note) =>
+      _database.notesDao.restore(note.ownerId, note.id);
 
   @override
-  Future<void> deleteForever(String id) => _database.notesDao.deleteForever(id);
+  Future<void> deleteForever(Note note) =>
+      _database.notesDao.deleteForever(note.ownerId, note.id);
 
   int _compare(Note a, Note b, NoteSort sort) {
     if (a.isPinned != b.isPinned) {
@@ -163,7 +163,6 @@ final class LocalNotesRepository implements NotesRepository {
       createdAtUtc: row.createdAtUtc,
       updatedAtUtc: row.updatedAtUtc,
       deletedAtUtc: row.deletedAtUtc,
-      revision: row.revision,
     );
   }
 }

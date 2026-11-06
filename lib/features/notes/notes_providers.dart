@@ -88,5 +88,9 @@ final noteByIdProvider = FutureProvider.family<Note?, String>((
   Ref ref,
   String id,
 ) {
-  return ref.watch(notesRepositoryProvider).findById(id);
+  final AppUser? user = ref.watch(authControllerProvider).value;
+  if (user == null) {
+    return Future<Note?>.value(null);
+  }
+  return ref.watch(notesRepositoryProvider).findById(ownerId: user.id, id: id);
 });

@@ -10,18 +10,13 @@ import 'tables.dart';
 part 'app_database.g.dart';
 
 @DriftDatabase(
-  tables: <Type>[
-    Users,
-    Notes,
-    Attachments,
-    Reminders,
-    UserPreferences,
-    SyncOutbox,
-  ],
+  tables: <Type>[Users, Notes, Attachments, Reminders, UserPreferences],
   daos: <Type>[UsersDao, NotesDao, RemindersDao, PreferencesDao],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(driftDatabase(name: 'notes_tech'));
+
+  AppDatabase.forTesting(super.e);
 
   @override
   int get schemaVersion => 1;

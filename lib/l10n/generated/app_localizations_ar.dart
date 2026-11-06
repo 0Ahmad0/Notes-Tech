@@ -320,6 +320,36 @@ class AppLocalizationsAr extends AppLocalizations {
   String get audioPlaybackFailed => 'تعذر تشغيل هذا الصوت.';
 
   @override
+  String get playAudio => 'تشغيل الصوت';
+
+  @override
+  String get pauseAudio => 'إيقاف الصوت مؤقتًا';
+
+  @override
+  String get colorDefault => 'افتراضي';
+
+  @override
+  String get colorYellow => 'أصفر';
+
+  @override
+  String get colorMint => 'نعناعي';
+
+  @override
+  String get colorSky => 'سماوي';
+
+  @override
+  String get colorLavender => 'لافندر';
+
+  @override
+  String get colorPeach => 'خوخي';
+
+  @override
+  String get colorRose => 'وردي';
+
+  @override
+  String get colorSlate => 'رمادي';
+
+  @override
   String get reminders => 'تذكير';
 
   @override
@@ -344,6 +374,34 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notificationsDisabled => 'الإشعارات معطلة لتطبيق Notes-Tech.';
+
+  @override
+  String get notifications => 'الإشعارات';
+
+  @override
+  String get notificationsOn => 'الإشعارات مفعّلة.';
+
+  @override
+  String get notificationsOff => 'الإشعارات متوقفة.';
+
+  @override
+  String get enableNotifications => 'تفعيل';
+
+  @override
+  String get font => 'الخط';
+
+  @override
+  String get fontSystem => 'خط النظام';
+
+  @override
+  String get fontPlexArabic => 'IBM Plex Arabic';
+
+  @override
+  String get privacy => 'الخصوصية';
+
+  @override
+  String get localOnlyNotice =>
+      'ملاحظاتك محفوظة على هذا الجهاز فقط. لا يوجد خادم حسابات أو نسخ احتياطي سحابي بعد، لذا فإن حذف التطبيق أو فقدان الجهاز يعني فقدان بياناتك.';
 
   @override
   String editedDate(String date) {

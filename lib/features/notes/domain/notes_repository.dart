@@ -11,7 +11,7 @@ abstract interface class NotesRepository {
 
   Stream<List<Note>> watchTrash(String ownerId);
 
-  Future<Note?> findById(String id);
+  Future<Note?> findById({required String ownerId, required String id});
 
   Future<Note> create({
     required String ownerId,
@@ -23,9 +23,9 @@ abstract interface class NotesRepository {
 
   Future<Note> update(Note note);
 
-  Future<void> moveToTrash(String id);
+  Future<void> moveToTrash(Note note);
 
-  Future<void> restore(String id);
+  Future<void> restore(Note note);
 
-  Future<void> deleteForever(String id);
+  Future<void> deleteForever(Note note);
 }

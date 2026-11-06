@@ -82,17 +82,6 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserRow> {
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
-  static const VerificationMeta _firebaseUidMeta = const VerificationMeta(
-    'firebaseUid',
-  );
-  @override
-  late final GeneratedColumn<String> firebaseUid = GeneratedColumn<String>(
-    'firebase_uid',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
   static const VerificationMeta _createdAtUtcMeta = const VerificationMeta(
     'createdAtUtc',
   );
@@ -124,7 +113,6 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserRow> {
     salt,
     hashParams,
     avatarLocalPath,
-    firebaseUid,
     createdAtUtc,
     updatedAtUtc,
   ];
@@ -203,15 +191,6 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserRow> {
         ),
       );
     }
-    if (data.containsKey('firebase_uid')) {
-      context.handle(
-        _firebaseUidMeta,
-        firebaseUid.isAcceptableOrUnknown(
-          data['firebase_uid']!,
-          _firebaseUidMeta,
-        ),
-      );
-    }
     if (data.containsKey('created_at_utc')) {
       context.handle(
         _createdAtUtcMeta,
@@ -271,10 +250,6 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserRow> {
         DriftSqlType.string,
         data['${effectivePrefix}avatar_local_path'],
       ),
-      firebaseUid: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}firebase_uid'],
-      ),
       createdAtUtc: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at_utc'],
@@ -300,7 +275,6 @@ class UserRow extends DataClass implements Insertable<UserRow> {
   final String salt;
   final String hashParams;
   final String? avatarLocalPath;
-  final String? firebaseUid;
   final DateTime createdAtUtc;
   final DateTime updatedAtUtc;
   const UserRow({
@@ -311,7 +285,6 @@ class UserRow extends DataClass implements Insertable<UserRow> {
     required this.salt,
     required this.hashParams,
     this.avatarLocalPath,
-    this.firebaseUid,
     required this.createdAtUtc,
     required this.updatedAtUtc,
   });
@@ -326,9 +299,6 @@ class UserRow extends DataClass implements Insertable<UserRow> {
     map['hash_params'] = Variable<String>(hashParams);
     if (!nullToAbsent || avatarLocalPath != null) {
       map['avatar_local_path'] = Variable<String>(avatarLocalPath);
-    }
-    if (!nullToAbsent || firebaseUid != null) {
-      map['firebase_uid'] = Variable<String>(firebaseUid);
     }
     map['created_at_utc'] = Variable<DateTime>(createdAtUtc);
     map['updated_at_utc'] = Variable<DateTime>(updatedAtUtc);
@@ -346,9 +316,6 @@ class UserRow extends DataClass implements Insertable<UserRow> {
       avatarLocalPath: avatarLocalPath == null && nullToAbsent
           ? const Value.absent()
           : Value(avatarLocalPath),
-      firebaseUid: firebaseUid == null && nullToAbsent
-          ? const Value.absent()
-          : Value(firebaseUid),
       createdAtUtc: Value(createdAtUtc),
       updatedAtUtc: Value(updatedAtUtc),
     );
@@ -369,7 +336,6 @@ class UserRow extends DataClass implements Insertable<UserRow> {
       salt: serializer.fromJson<String>(json['salt']),
       hashParams: serializer.fromJson<String>(json['hashParams']),
       avatarLocalPath: serializer.fromJson<String?>(json['avatarLocalPath']),
-      firebaseUid: serializer.fromJson<String?>(json['firebaseUid']),
       createdAtUtc: serializer.fromJson<DateTime>(json['createdAtUtc']),
       updatedAtUtc: serializer.fromJson<DateTime>(json['updatedAtUtc']),
     );
@@ -385,7 +351,6 @@ class UserRow extends DataClass implements Insertable<UserRow> {
       'salt': serializer.toJson<String>(salt),
       'hashParams': serializer.toJson<String>(hashParams),
       'avatarLocalPath': serializer.toJson<String?>(avatarLocalPath),
-      'firebaseUid': serializer.toJson<String?>(firebaseUid),
       'createdAtUtc': serializer.toJson<DateTime>(createdAtUtc),
       'updatedAtUtc': serializer.toJson<DateTime>(updatedAtUtc),
     };
@@ -399,7 +364,6 @@ class UserRow extends DataClass implements Insertable<UserRow> {
     String? salt,
     String? hashParams,
     Value<String?> avatarLocalPath = const Value.absent(),
-    Value<String?> firebaseUid = const Value.absent(),
     DateTime? createdAtUtc,
     DateTime? updatedAtUtc,
   }) => UserRow(
@@ -412,7 +376,6 @@ class UserRow extends DataClass implements Insertable<UserRow> {
     avatarLocalPath: avatarLocalPath.present
         ? avatarLocalPath.value
         : this.avatarLocalPath,
-    firebaseUid: firebaseUid.present ? firebaseUid.value : this.firebaseUid,
     createdAtUtc: createdAtUtc ?? this.createdAtUtc,
     updatedAtUtc: updatedAtUtc ?? this.updatedAtUtc,
   );
@@ -435,9 +398,6 @@ class UserRow extends DataClass implements Insertable<UserRow> {
       avatarLocalPath: data.avatarLocalPath.present
           ? data.avatarLocalPath.value
           : this.avatarLocalPath,
-      firebaseUid: data.firebaseUid.present
-          ? data.firebaseUid.value
-          : this.firebaseUid,
       createdAtUtc: data.createdAtUtc.present
           ? data.createdAtUtc.value
           : this.createdAtUtc,
@@ -457,7 +417,6 @@ class UserRow extends DataClass implements Insertable<UserRow> {
           ..write('salt: $salt, ')
           ..write('hashParams: $hashParams, ')
           ..write('avatarLocalPath: $avatarLocalPath, ')
-          ..write('firebaseUid: $firebaseUid, ')
           ..write('createdAtUtc: $createdAtUtc, ')
           ..write('updatedAtUtc: $updatedAtUtc')
           ..write(')'))
@@ -473,7 +432,6 @@ class UserRow extends DataClass implements Insertable<UserRow> {
     salt,
     hashParams,
     avatarLocalPath,
-    firebaseUid,
     createdAtUtc,
     updatedAtUtc,
   );
@@ -488,7 +446,6 @@ class UserRow extends DataClass implements Insertable<UserRow> {
           other.salt == this.salt &&
           other.hashParams == this.hashParams &&
           other.avatarLocalPath == this.avatarLocalPath &&
-          other.firebaseUid == this.firebaseUid &&
           other.createdAtUtc == this.createdAtUtc &&
           other.updatedAtUtc == this.updatedAtUtc);
 }
@@ -501,7 +458,6 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
   final Value<String> salt;
   final Value<String> hashParams;
   final Value<String?> avatarLocalPath;
-  final Value<String?> firebaseUid;
   final Value<DateTime> createdAtUtc;
   final Value<DateTime> updatedAtUtc;
   final Value<int> rowid;
@@ -513,7 +469,6 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
     this.salt = const Value.absent(),
     this.hashParams = const Value.absent(),
     this.avatarLocalPath = const Value.absent(),
-    this.firebaseUid = const Value.absent(),
     this.createdAtUtc = const Value.absent(),
     this.updatedAtUtc = const Value.absent(),
     this.rowid = const Value.absent(),
@@ -526,7 +481,6 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
     required String salt,
     required String hashParams,
     this.avatarLocalPath = const Value.absent(),
-    this.firebaseUid = const Value.absent(),
     required DateTime createdAtUtc,
     required DateTime updatedAtUtc,
     this.rowid = const Value.absent(),
@@ -546,7 +500,6 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
     Expression<String>? salt,
     Expression<String>? hashParams,
     Expression<String>? avatarLocalPath,
-    Expression<String>? firebaseUid,
     Expression<DateTime>? createdAtUtc,
     Expression<DateTime>? updatedAtUtc,
     Expression<int>? rowid,
@@ -559,7 +512,6 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
       if (salt != null) 'salt': salt,
       if (hashParams != null) 'hash_params': hashParams,
       if (avatarLocalPath != null) 'avatar_local_path': avatarLocalPath,
-      if (firebaseUid != null) 'firebase_uid': firebaseUid,
       if (createdAtUtc != null) 'created_at_utc': createdAtUtc,
       if (updatedAtUtc != null) 'updated_at_utc': updatedAtUtc,
       if (rowid != null) 'rowid': rowid,
@@ -574,7 +526,6 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
     Value<String>? salt,
     Value<String>? hashParams,
     Value<String?>? avatarLocalPath,
-    Value<String?>? firebaseUid,
     Value<DateTime>? createdAtUtc,
     Value<DateTime>? updatedAtUtc,
     Value<int>? rowid,
@@ -587,7 +538,6 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
       salt: salt ?? this.salt,
       hashParams: hashParams ?? this.hashParams,
       avatarLocalPath: avatarLocalPath ?? this.avatarLocalPath,
-      firebaseUid: firebaseUid ?? this.firebaseUid,
       createdAtUtc: createdAtUtc ?? this.createdAtUtc,
       updatedAtUtc: updatedAtUtc ?? this.updatedAtUtc,
       rowid: rowid ?? this.rowid,
@@ -618,9 +568,6 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
     if (avatarLocalPath.present) {
       map['avatar_local_path'] = Variable<String>(avatarLocalPath.value);
     }
-    if (firebaseUid.present) {
-      map['firebase_uid'] = Variable<String>(firebaseUid.value);
-    }
     if (createdAtUtc.present) {
       map['created_at_utc'] = Variable<DateTime>(createdAtUtc.value);
     }
@@ -643,7 +590,6 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
           ..write('salt: $salt, ')
           ..write('hashParams: $hashParams, ')
           ..write('avatarLocalPath: $avatarLocalPath, ')
-          ..write('firebaseUid: $firebaseUid, ')
           ..write('createdAtUtc: $createdAtUtc, ')
           ..write('updatedAtUtc: $updatedAtUtc, ')
           ..write('rowid: $rowid')
@@ -785,30 +731,6 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, NoteRow> {
     type: DriftSqlType.dateTime,
     requiredDuringInsert: false,
   );
-  static const VerificationMeta _revisionMeta = const VerificationMeta(
-    'revision',
-  );
-  @override
-  late final GeneratedColumn<int> revision = GeneratedColumn<int>(
-    'revision',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultValue: const Constant(1),
-  );
-  static const VerificationMeta _syncStateMeta = const VerificationMeta(
-    'syncState',
-  );
-  @override
-  late final GeneratedColumn<String> syncState = GeneratedColumn<String>(
-    'sync_state',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-    defaultValue: const Constant('localOnly'),
-  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -822,8 +744,6 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, NoteRow> {
     createdAtUtc,
     updatedAtUtc,
     deletedAtUtc,
-    revision,
-    syncState,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -917,18 +837,6 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, NoteRow> {
         ),
       );
     }
-    if (data.containsKey('revision')) {
-      context.handle(
-        _revisionMeta,
-        revision.isAcceptableOrUnknown(data['revision']!, _revisionMeta),
-      );
-    }
-    if (data.containsKey('sync_state')) {
-      context.handle(
-        _syncStateMeta,
-        syncState.isAcceptableOrUnknown(data['sync_state']!, _syncStateMeta),
-      );
-    }
     return context;
   }
 
@@ -982,14 +890,6 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, NoteRow> {
         DriftSqlType.dateTime,
         data['${effectivePrefix}deleted_at_utc'],
       ),
-      revision: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}revision'],
-      )!,
-      syncState: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}sync_state'],
-      )!,
     );
   }
 
@@ -1011,8 +911,6 @@ class NoteRow extends DataClass implements Insertable<NoteRow> {
   final DateTime createdAtUtc;
   final DateTime updatedAtUtc;
   final DateTime? deletedAtUtc;
-  final int revision;
-  final String syncState;
   const NoteRow({
     required this.id,
     required this.ownerId,
@@ -1025,8 +923,6 @@ class NoteRow extends DataClass implements Insertable<NoteRow> {
     required this.createdAtUtc,
     required this.updatedAtUtc,
     this.deletedAtUtc,
-    required this.revision,
-    required this.syncState,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1044,8 +940,6 @@ class NoteRow extends DataClass implements Insertable<NoteRow> {
     if (!nullToAbsent || deletedAtUtc != null) {
       map['deleted_at_utc'] = Variable<DateTime>(deletedAtUtc);
     }
-    map['revision'] = Variable<int>(revision);
-    map['sync_state'] = Variable<String>(syncState);
     return map;
   }
 
@@ -1064,8 +958,6 @@ class NoteRow extends DataClass implements Insertable<NoteRow> {
       deletedAtUtc: deletedAtUtc == null && nullToAbsent
           ? const Value.absent()
           : Value(deletedAtUtc),
-      revision: Value(revision),
-      syncState: Value(syncState),
     );
   }
 
@@ -1086,8 +978,6 @@ class NoteRow extends DataClass implements Insertable<NoteRow> {
       createdAtUtc: serializer.fromJson<DateTime>(json['createdAtUtc']),
       updatedAtUtc: serializer.fromJson<DateTime>(json['updatedAtUtc']),
       deletedAtUtc: serializer.fromJson<DateTime?>(json['deletedAtUtc']),
-      revision: serializer.fromJson<int>(json['revision']),
-      syncState: serializer.fromJson<String>(json['syncState']),
     );
   }
   @override
@@ -1105,8 +995,6 @@ class NoteRow extends DataClass implements Insertable<NoteRow> {
       'createdAtUtc': serializer.toJson<DateTime>(createdAtUtc),
       'updatedAtUtc': serializer.toJson<DateTime>(updatedAtUtc),
       'deletedAtUtc': serializer.toJson<DateTime?>(deletedAtUtc),
-      'revision': serializer.toJson<int>(revision),
-      'syncState': serializer.toJson<String>(syncState),
     };
   }
 
@@ -1122,8 +1010,6 @@ class NoteRow extends DataClass implements Insertable<NoteRow> {
     DateTime? createdAtUtc,
     DateTime? updatedAtUtc,
     Value<DateTime?> deletedAtUtc = const Value.absent(),
-    int? revision,
-    String? syncState,
   }) => NoteRow(
     id: id ?? this.id,
     ownerId: ownerId ?? this.ownerId,
@@ -1136,8 +1022,6 @@ class NoteRow extends DataClass implements Insertable<NoteRow> {
     createdAtUtc: createdAtUtc ?? this.createdAtUtc,
     updatedAtUtc: updatedAtUtc ?? this.updatedAtUtc,
     deletedAtUtc: deletedAtUtc.present ? deletedAtUtc.value : this.deletedAtUtc,
-    revision: revision ?? this.revision,
-    syncState: syncState ?? this.syncState,
   );
   NoteRow copyWithCompanion(NotesCompanion data) {
     return NoteRow(
@@ -1160,8 +1044,6 @@ class NoteRow extends DataClass implements Insertable<NoteRow> {
       deletedAtUtc: data.deletedAtUtc.present
           ? data.deletedAtUtc.value
           : this.deletedAtUtc,
-      revision: data.revision.present ? data.revision.value : this.revision,
-      syncState: data.syncState.present ? data.syncState.value : this.syncState,
     );
   }
 
@@ -1178,9 +1060,7 @@ class NoteRow extends DataClass implements Insertable<NoteRow> {
           ..write('isArchived: $isArchived, ')
           ..write('createdAtUtc: $createdAtUtc, ')
           ..write('updatedAtUtc: $updatedAtUtc, ')
-          ..write('deletedAtUtc: $deletedAtUtc, ')
-          ..write('revision: $revision, ')
-          ..write('syncState: $syncState')
+          ..write('deletedAtUtc: $deletedAtUtc')
           ..write(')'))
         .toString();
   }
@@ -1198,8 +1078,6 @@ class NoteRow extends DataClass implements Insertable<NoteRow> {
     createdAtUtc,
     updatedAtUtc,
     deletedAtUtc,
-    revision,
-    syncState,
   );
   @override
   bool operator ==(Object other) =>
@@ -1215,9 +1093,7 @@ class NoteRow extends DataClass implements Insertable<NoteRow> {
           other.isArchived == this.isArchived &&
           other.createdAtUtc == this.createdAtUtc &&
           other.updatedAtUtc == this.updatedAtUtc &&
-          other.deletedAtUtc == this.deletedAtUtc &&
-          other.revision == this.revision &&
-          other.syncState == this.syncState);
+          other.deletedAtUtc == this.deletedAtUtc);
 }
 
 class NotesCompanion extends UpdateCompanion<NoteRow> {
@@ -1232,8 +1108,6 @@ class NotesCompanion extends UpdateCompanion<NoteRow> {
   final Value<DateTime> createdAtUtc;
   final Value<DateTime> updatedAtUtc;
   final Value<DateTime?> deletedAtUtc;
-  final Value<int> revision;
-  final Value<String> syncState;
   final Value<int> rowid;
   const NotesCompanion({
     this.id = const Value.absent(),
@@ -1247,8 +1121,6 @@ class NotesCompanion extends UpdateCompanion<NoteRow> {
     this.createdAtUtc = const Value.absent(),
     this.updatedAtUtc = const Value.absent(),
     this.deletedAtUtc = const Value.absent(),
-    this.revision = const Value.absent(),
-    this.syncState = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   NotesCompanion.insert({
@@ -1263,8 +1135,6 @@ class NotesCompanion extends UpdateCompanion<NoteRow> {
     required DateTime createdAtUtc,
     required DateTime updatedAtUtc,
     this.deletedAtUtc = const Value.absent(),
-    this.revision = const Value.absent(),
-    this.syncState = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        ownerId = Value(ownerId),
@@ -1282,8 +1152,6 @@ class NotesCompanion extends UpdateCompanion<NoteRow> {
     Expression<DateTime>? createdAtUtc,
     Expression<DateTime>? updatedAtUtc,
     Expression<DateTime>? deletedAtUtc,
-    Expression<int>? revision,
-    Expression<String>? syncState,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -1298,8 +1166,6 @@ class NotesCompanion extends UpdateCompanion<NoteRow> {
       if (createdAtUtc != null) 'created_at_utc': createdAtUtc,
       if (updatedAtUtc != null) 'updated_at_utc': updatedAtUtc,
       if (deletedAtUtc != null) 'deleted_at_utc': deletedAtUtc,
-      if (revision != null) 'revision': revision,
-      if (syncState != null) 'sync_state': syncState,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -1316,8 +1182,6 @@ class NotesCompanion extends UpdateCompanion<NoteRow> {
     Value<DateTime>? createdAtUtc,
     Value<DateTime>? updatedAtUtc,
     Value<DateTime?>? deletedAtUtc,
-    Value<int>? revision,
-    Value<String>? syncState,
     Value<int>? rowid,
   }) {
     return NotesCompanion(
@@ -1332,8 +1196,6 @@ class NotesCompanion extends UpdateCompanion<NoteRow> {
       createdAtUtc: createdAtUtc ?? this.createdAtUtc,
       updatedAtUtc: updatedAtUtc ?? this.updatedAtUtc,
       deletedAtUtc: deletedAtUtc ?? this.deletedAtUtc,
-      revision: revision ?? this.revision,
-      syncState: syncState ?? this.syncState,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -1374,12 +1236,6 @@ class NotesCompanion extends UpdateCompanion<NoteRow> {
     if (deletedAtUtc.present) {
       map['deleted_at_utc'] = Variable<DateTime>(deletedAtUtc.value);
     }
-    if (revision.present) {
-      map['revision'] = Variable<int>(revision.value);
-    }
-    if (syncState.present) {
-      map['sync_state'] = Variable<String>(syncState.value);
-    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -1400,8 +1256,6 @@ class NotesCompanion extends UpdateCompanion<NoteRow> {
           ..write('createdAtUtc: $createdAtUtc, ')
           ..write('updatedAtUtc: $updatedAtUtc, ')
           ..write('deletedAtUtc: $deletedAtUtc, ')
-          ..write('revision: $revision, ')
-          ..write('syncState: $syncState, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -1512,30 +1366,6 @@ class $AttachmentsTable extends Attachments
     type: DriftSqlType.int,
     requiredDuringInsert: false,
   );
-  static const VerificationMeta _remoteStoragePathMeta = const VerificationMeta(
-    'remoteStoragePath',
-  );
-  @override
-  late final GeneratedColumn<String> remoteStoragePath =
-      GeneratedColumn<String>(
-        'remote_storage_path',
-        aliasedName,
-        true,
-        type: DriftSqlType.string,
-        requiredDuringInsert: false,
-      );
-  static const VerificationMeta _syncStateMeta = const VerificationMeta(
-    'syncState',
-  );
-  @override
-  late final GeneratedColumn<String> syncState = GeneratedColumn<String>(
-    'sync_state',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-    defaultValue: const Constant('localOnly'),
-  );
   static const VerificationMeta _deletedAtUtcMeta = const VerificationMeta(
     'deletedAtUtc',
   );
@@ -1558,8 +1388,6 @@ class $AttachmentsTable extends Attachments
     byteSize,
     checksum,
     durationMs,
-    remoteStoragePath,
-    syncState,
     deletedAtUtc,
   ];
   @override
@@ -1643,21 +1471,6 @@ class $AttachmentsTable extends Attachments
         durationMs.isAcceptableOrUnknown(data['duration_ms']!, _durationMsMeta),
       );
     }
-    if (data.containsKey('remote_storage_path')) {
-      context.handle(
-        _remoteStoragePathMeta,
-        remoteStoragePath.isAcceptableOrUnknown(
-          data['remote_storage_path']!,
-          _remoteStoragePathMeta,
-        ),
-      );
-    }
-    if (data.containsKey('sync_state')) {
-      context.handle(
-        _syncStateMeta,
-        syncState.isAcceptableOrUnknown(data['sync_state']!, _syncStateMeta),
-      );
-    }
     if (data.containsKey('deleted_at_utc')) {
       context.handle(
         _deletedAtUtcMeta,
@@ -1712,14 +1525,6 @@ class $AttachmentsTable extends Attachments
         DriftSqlType.int,
         data['${effectivePrefix}duration_ms'],
       ),
-      remoteStoragePath: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}remote_storage_path'],
-      ),
-      syncState: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}sync_state'],
-      )!,
       deletedAtUtc: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}deleted_at_utc'],
@@ -1743,8 +1548,6 @@ class AttachmentRow extends DataClass implements Insertable<AttachmentRow> {
   final int byteSize;
   final String? checksum;
   final int? durationMs;
-  final String? remoteStoragePath;
-  final String syncState;
   final DateTime? deletedAtUtc;
   const AttachmentRow({
     required this.id,
@@ -1756,8 +1559,6 @@ class AttachmentRow extends DataClass implements Insertable<AttachmentRow> {
     required this.byteSize,
     this.checksum,
     this.durationMs,
-    this.remoteStoragePath,
-    required this.syncState,
     this.deletedAtUtc,
   });
   @override
@@ -1776,10 +1577,6 @@ class AttachmentRow extends DataClass implements Insertable<AttachmentRow> {
     if (!nullToAbsent || durationMs != null) {
       map['duration_ms'] = Variable<int>(durationMs);
     }
-    if (!nullToAbsent || remoteStoragePath != null) {
-      map['remote_storage_path'] = Variable<String>(remoteStoragePath);
-    }
-    map['sync_state'] = Variable<String>(syncState);
     if (!nullToAbsent || deletedAtUtc != null) {
       map['deleted_at_utc'] = Variable<DateTime>(deletedAtUtc);
     }
@@ -1801,10 +1598,6 @@ class AttachmentRow extends DataClass implements Insertable<AttachmentRow> {
       durationMs: durationMs == null && nullToAbsent
           ? const Value.absent()
           : Value(durationMs),
-      remoteStoragePath: remoteStoragePath == null && nullToAbsent
-          ? const Value.absent()
-          : Value(remoteStoragePath),
-      syncState: Value(syncState),
       deletedAtUtc: deletedAtUtc == null && nullToAbsent
           ? const Value.absent()
           : Value(deletedAtUtc),
@@ -1826,10 +1619,6 @@ class AttachmentRow extends DataClass implements Insertable<AttachmentRow> {
       byteSize: serializer.fromJson<int>(json['byteSize']),
       checksum: serializer.fromJson<String?>(json['checksum']),
       durationMs: serializer.fromJson<int?>(json['durationMs']),
-      remoteStoragePath: serializer.fromJson<String?>(
-        json['remoteStoragePath'],
-      ),
-      syncState: serializer.fromJson<String>(json['syncState']),
       deletedAtUtc: serializer.fromJson<DateTime?>(json['deletedAtUtc']),
     );
   }
@@ -1846,8 +1635,6 @@ class AttachmentRow extends DataClass implements Insertable<AttachmentRow> {
       'byteSize': serializer.toJson<int>(byteSize),
       'checksum': serializer.toJson<String?>(checksum),
       'durationMs': serializer.toJson<int?>(durationMs),
-      'remoteStoragePath': serializer.toJson<String?>(remoteStoragePath),
-      'syncState': serializer.toJson<String>(syncState),
       'deletedAtUtc': serializer.toJson<DateTime?>(deletedAtUtc),
     };
   }
@@ -1862,8 +1649,6 @@ class AttachmentRow extends DataClass implements Insertable<AttachmentRow> {
     int? byteSize,
     Value<String?> checksum = const Value.absent(),
     Value<int?> durationMs = const Value.absent(),
-    Value<String?> remoteStoragePath = const Value.absent(),
-    String? syncState,
     Value<DateTime?> deletedAtUtc = const Value.absent(),
   }) => AttachmentRow(
     id: id ?? this.id,
@@ -1875,10 +1660,6 @@ class AttachmentRow extends DataClass implements Insertable<AttachmentRow> {
     byteSize: byteSize ?? this.byteSize,
     checksum: checksum.present ? checksum.value : this.checksum,
     durationMs: durationMs.present ? durationMs.value : this.durationMs,
-    remoteStoragePath: remoteStoragePath.present
-        ? remoteStoragePath.value
-        : this.remoteStoragePath,
-    syncState: syncState ?? this.syncState,
     deletedAtUtc: deletedAtUtc.present ? deletedAtUtc.value : this.deletedAtUtc,
   );
   AttachmentRow copyWithCompanion(AttachmentsCompanion data) {
@@ -1898,10 +1679,6 @@ class AttachmentRow extends DataClass implements Insertable<AttachmentRow> {
       durationMs: data.durationMs.present
           ? data.durationMs.value
           : this.durationMs,
-      remoteStoragePath: data.remoteStoragePath.present
-          ? data.remoteStoragePath.value
-          : this.remoteStoragePath,
-      syncState: data.syncState.present ? data.syncState.value : this.syncState,
       deletedAtUtc: data.deletedAtUtc.present
           ? data.deletedAtUtc.value
           : this.deletedAtUtc,
@@ -1920,8 +1697,6 @@ class AttachmentRow extends DataClass implements Insertable<AttachmentRow> {
           ..write('byteSize: $byteSize, ')
           ..write('checksum: $checksum, ')
           ..write('durationMs: $durationMs, ')
-          ..write('remoteStoragePath: $remoteStoragePath, ')
-          ..write('syncState: $syncState, ')
           ..write('deletedAtUtc: $deletedAtUtc')
           ..write(')'))
         .toString();
@@ -1938,8 +1713,6 @@ class AttachmentRow extends DataClass implements Insertable<AttachmentRow> {
     byteSize,
     checksum,
     durationMs,
-    remoteStoragePath,
-    syncState,
     deletedAtUtc,
   );
   @override
@@ -1955,8 +1728,6 @@ class AttachmentRow extends DataClass implements Insertable<AttachmentRow> {
           other.byteSize == this.byteSize &&
           other.checksum == this.checksum &&
           other.durationMs == this.durationMs &&
-          other.remoteStoragePath == this.remoteStoragePath &&
-          other.syncState == this.syncState &&
           other.deletedAtUtc == this.deletedAtUtc);
 }
 
@@ -1970,8 +1741,6 @@ class AttachmentsCompanion extends UpdateCompanion<AttachmentRow> {
   final Value<int> byteSize;
   final Value<String?> checksum;
   final Value<int?> durationMs;
-  final Value<String?> remoteStoragePath;
-  final Value<String> syncState;
   final Value<DateTime?> deletedAtUtc;
   final Value<int> rowid;
   const AttachmentsCompanion({
@@ -1984,8 +1753,6 @@ class AttachmentsCompanion extends UpdateCompanion<AttachmentRow> {
     this.byteSize = const Value.absent(),
     this.checksum = const Value.absent(),
     this.durationMs = const Value.absent(),
-    this.remoteStoragePath = const Value.absent(),
-    this.syncState = const Value.absent(),
     this.deletedAtUtc = const Value.absent(),
     this.rowid = const Value.absent(),
   });
@@ -1999,8 +1766,6 @@ class AttachmentsCompanion extends UpdateCompanion<AttachmentRow> {
     this.byteSize = const Value.absent(),
     this.checksum = const Value.absent(),
     this.durationMs = const Value.absent(),
-    this.remoteStoragePath = const Value.absent(),
-    this.syncState = const Value.absent(),
     this.deletedAtUtc = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
@@ -2019,8 +1784,6 @@ class AttachmentsCompanion extends UpdateCompanion<AttachmentRow> {
     Expression<int>? byteSize,
     Expression<String>? checksum,
     Expression<int>? durationMs,
-    Expression<String>? remoteStoragePath,
-    Expression<String>? syncState,
     Expression<DateTime>? deletedAtUtc,
     Expression<int>? rowid,
   }) {
@@ -2034,8 +1797,6 @@ class AttachmentsCompanion extends UpdateCompanion<AttachmentRow> {
       if (byteSize != null) 'byte_size': byteSize,
       if (checksum != null) 'checksum': checksum,
       if (durationMs != null) 'duration_ms': durationMs,
-      if (remoteStoragePath != null) 'remote_storage_path': remoteStoragePath,
-      if (syncState != null) 'sync_state': syncState,
       if (deletedAtUtc != null) 'deleted_at_utc': deletedAtUtc,
       if (rowid != null) 'rowid': rowid,
     });
@@ -2051,8 +1812,6 @@ class AttachmentsCompanion extends UpdateCompanion<AttachmentRow> {
     Value<int>? byteSize,
     Value<String?>? checksum,
     Value<int?>? durationMs,
-    Value<String?>? remoteStoragePath,
-    Value<String>? syncState,
     Value<DateTime?>? deletedAtUtc,
     Value<int>? rowid,
   }) {
@@ -2066,8 +1825,6 @@ class AttachmentsCompanion extends UpdateCompanion<AttachmentRow> {
       byteSize: byteSize ?? this.byteSize,
       checksum: checksum ?? this.checksum,
       durationMs: durationMs ?? this.durationMs,
-      remoteStoragePath: remoteStoragePath ?? this.remoteStoragePath,
-      syncState: syncState ?? this.syncState,
       deletedAtUtc: deletedAtUtc ?? this.deletedAtUtc,
       rowid: rowid ?? this.rowid,
     );
@@ -2103,12 +1860,6 @@ class AttachmentsCompanion extends UpdateCompanion<AttachmentRow> {
     if (durationMs.present) {
       map['duration_ms'] = Variable<int>(durationMs.value);
     }
-    if (remoteStoragePath.present) {
-      map['remote_storage_path'] = Variable<String>(remoteStoragePath.value);
-    }
-    if (syncState.present) {
-      map['sync_state'] = Variable<String>(syncState.value);
-    }
     if (deletedAtUtc.present) {
       map['deleted_at_utc'] = Variable<DateTime>(deletedAtUtc.value);
     }
@@ -2130,8 +1881,6 @@ class AttachmentsCompanion extends UpdateCompanion<AttachmentRow> {
           ..write('byteSize: $byteSize, ')
           ..write('checksum: $checksum, ')
           ..write('durationMs: $durationMs, ')
-          ..write('remoteStoragePath: $remoteStoragePath, ')
-          ..write('syncState: $syncState, ')
           ..write('deletedAtUtc: $deletedAtUtc, ')
           ..write('rowid: $rowid')
           ..write(')'))
@@ -3148,632 +2897,6 @@ class UserPreferencesCompanion extends UpdateCompanion<UserPreferenceRow> {
   }
 }
 
-class $SyncOutboxTable extends SyncOutbox
-    with TableInfo<$SyncOutboxTable, SyncOutboxRow> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $SyncOutboxTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<String> id = GeneratedColumn<String>(
-    'id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _ownerIdMeta = const VerificationMeta(
-    'ownerId',
-  );
-  @override
-  late final GeneratedColumn<String> ownerId = GeneratedColumn<String>(
-    'owner_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _entityTypeMeta = const VerificationMeta(
-    'entityType',
-  );
-  @override
-  late final GeneratedColumn<String> entityType = GeneratedColumn<String>(
-    'entity_type',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _entityIdMeta = const VerificationMeta(
-    'entityId',
-  );
-  @override
-  late final GeneratedColumn<String> entityId = GeneratedColumn<String>(
-    'entity_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _operationMeta = const VerificationMeta(
-    'operation',
-  );
-  @override
-  late final GeneratedColumn<String> operation = GeneratedColumn<String>(
-    'operation',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _payloadRevisionMeta = const VerificationMeta(
-    'payloadRevision',
-  );
-  @override
-  late final GeneratedColumn<int> payloadRevision = GeneratedColumn<int>(
-    'payload_revision',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultValue: const Constant(0),
-  );
-  static const VerificationMeta _attemptsMeta = const VerificationMeta(
-    'attempts',
-  );
-  @override
-  late final GeneratedColumn<int> attempts = GeneratedColumn<int>(
-    'attempts',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultValue: const Constant(0),
-  );
-  static const VerificationMeta _nextRetryAtUtcMeta = const VerificationMeta(
-    'nextRetryAtUtc',
-  );
-  @override
-  late final GeneratedColumn<DateTime> nextRetryAtUtc =
-      GeneratedColumn<DateTime>(
-        'next_retry_at_utc',
-        aliasedName,
-        true,
-        type: DriftSqlType.dateTime,
-        requiredDuringInsert: false,
-      );
-  static const VerificationMeta _lastErrorMeta = const VerificationMeta(
-    'lastError',
-  );
-  @override
-  late final GeneratedColumn<String> lastError = GeneratedColumn<String>(
-    'last_error',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _createdAtUtcMeta = const VerificationMeta(
-    'createdAtUtc',
-  );
-  @override
-  late final GeneratedColumn<DateTime> createdAtUtc = GeneratedColumn<DateTime>(
-    'created_at_utc',
-    aliasedName,
-    false,
-    type: DriftSqlType.dateTime,
-    requiredDuringInsert: true,
-  );
-  @override
-  List<GeneratedColumn> get $columns => [
-    id,
-    ownerId,
-    entityType,
-    entityId,
-    operation,
-    payloadRevision,
-    attempts,
-    nextRetryAtUtc,
-    lastError,
-    createdAtUtc,
-  ];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'sync_outbox';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<SyncOutboxRow> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
-    }
-    if (data.containsKey('owner_id')) {
-      context.handle(
-        _ownerIdMeta,
-        ownerId.isAcceptableOrUnknown(data['owner_id']!, _ownerIdMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_ownerIdMeta);
-    }
-    if (data.containsKey('entity_type')) {
-      context.handle(
-        _entityTypeMeta,
-        entityType.isAcceptableOrUnknown(data['entity_type']!, _entityTypeMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_entityTypeMeta);
-    }
-    if (data.containsKey('entity_id')) {
-      context.handle(
-        _entityIdMeta,
-        entityId.isAcceptableOrUnknown(data['entity_id']!, _entityIdMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_entityIdMeta);
-    }
-    if (data.containsKey('operation')) {
-      context.handle(
-        _operationMeta,
-        operation.isAcceptableOrUnknown(data['operation']!, _operationMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_operationMeta);
-    }
-    if (data.containsKey('payload_revision')) {
-      context.handle(
-        _payloadRevisionMeta,
-        payloadRevision.isAcceptableOrUnknown(
-          data['payload_revision']!,
-          _payloadRevisionMeta,
-        ),
-      );
-    }
-    if (data.containsKey('attempts')) {
-      context.handle(
-        _attemptsMeta,
-        attempts.isAcceptableOrUnknown(data['attempts']!, _attemptsMeta),
-      );
-    }
-    if (data.containsKey('next_retry_at_utc')) {
-      context.handle(
-        _nextRetryAtUtcMeta,
-        nextRetryAtUtc.isAcceptableOrUnknown(
-          data['next_retry_at_utc']!,
-          _nextRetryAtUtcMeta,
-        ),
-      );
-    }
-    if (data.containsKey('last_error')) {
-      context.handle(
-        _lastErrorMeta,
-        lastError.isAcceptableOrUnknown(data['last_error']!, _lastErrorMeta),
-      );
-    }
-    if (data.containsKey('created_at_utc')) {
-      context.handle(
-        _createdAtUtcMeta,
-        createdAtUtc.isAcceptableOrUnknown(
-          data['created_at_utc']!,
-          _createdAtUtcMeta,
-        ),
-      );
-    } else if (isInserting) {
-      context.missing(_createdAtUtcMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  SyncOutboxRow map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return SyncOutboxRow(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}id'],
-      )!,
-      ownerId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}owner_id'],
-      )!,
-      entityType: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}entity_type'],
-      )!,
-      entityId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}entity_id'],
-      )!,
-      operation: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}operation'],
-      )!,
-      payloadRevision: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}payload_revision'],
-      )!,
-      attempts: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}attempts'],
-      )!,
-      nextRetryAtUtc: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
-        data['${effectivePrefix}next_retry_at_utc'],
-      ),
-      lastError: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}last_error'],
-      ),
-      createdAtUtc: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
-        data['${effectivePrefix}created_at_utc'],
-      )!,
-    );
-  }
-
-  @override
-  $SyncOutboxTable createAlias(String alias) {
-    return $SyncOutboxTable(attachedDatabase, alias);
-  }
-}
-
-class SyncOutboxRow extends DataClass implements Insertable<SyncOutboxRow> {
-  final String id;
-  final String ownerId;
-  final String entityType;
-  final String entityId;
-  final String operation;
-  final int payloadRevision;
-  final int attempts;
-  final DateTime? nextRetryAtUtc;
-  final String? lastError;
-  final DateTime createdAtUtc;
-  const SyncOutboxRow({
-    required this.id,
-    required this.ownerId,
-    required this.entityType,
-    required this.entityId,
-    required this.operation,
-    required this.payloadRevision,
-    required this.attempts,
-    this.nextRetryAtUtc,
-    this.lastError,
-    required this.createdAtUtc,
-  });
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<String>(id);
-    map['owner_id'] = Variable<String>(ownerId);
-    map['entity_type'] = Variable<String>(entityType);
-    map['entity_id'] = Variable<String>(entityId);
-    map['operation'] = Variable<String>(operation);
-    map['payload_revision'] = Variable<int>(payloadRevision);
-    map['attempts'] = Variable<int>(attempts);
-    if (!nullToAbsent || nextRetryAtUtc != null) {
-      map['next_retry_at_utc'] = Variable<DateTime>(nextRetryAtUtc);
-    }
-    if (!nullToAbsent || lastError != null) {
-      map['last_error'] = Variable<String>(lastError);
-    }
-    map['created_at_utc'] = Variable<DateTime>(createdAtUtc);
-    return map;
-  }
-
-  SyncOutboxCompanion toCompanion(bool nullToAbsent) {
-    return SyncOutboxCompanion(
-      id: Value(id),
-      ownerId: Value(ownerId),
-      entityType: Value(entityType),
-      entityId: Value(entityId),
-      operation: Value(operation),
-      payloadRevision: Value(payloadRevision),
-      attempts: Value(attempts),
-      nextRetryAtUtc: nextRetryAtUtc == null && nullToAbsent
-          ? const Value.absent()
-          : Value(nextRetryAtUtc),
-      lastError: lastError == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastError),
-      createdAtUtc: Value(createdAtUtc),
-    );
-  }
-
-  factory SyncOutboxRow.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return SyncOutboxRow(
-      id: serializer.fromJson<String>(json['id']),
-      ownerId: serializer.fromJson<String>(json['ownerId']),
-      entityType: serializer.fromJson<String>(json['entityType']),
-      entityId: serializer.fromJson<String>(json['entityId']),
-      operation: serializer.fromJson<String>(json['operation']),
-      payloadRevision: serializer.fromJson<int>(json['payloadRevision']),
-      attempts: serializer.fromJson<int>(json['attempts']),
-      nextRetryAtUtc: serializer.fromJson<DateTime?>(json['nextRetryAtUtc']),
-      lastError: serializer.fromJson<String?>(json['lastError']),
-      createdAtUtc: serializer.fromJson<DateTime>(json['createdAtUtc']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<String>(id),
-      'ownerId': serializer.toJson<String>(ownerId),
-      'entityType': serializer.toJson<String>(entityType),
-      'entityId': serializer.toJson<String>(entityId),
-      'operation': serializer.toJson<String>(operation),
-      'payloadRevision': serializer.toJson<int>(payloadRevision),
-      'attempts': serializer.toJson<int>(attempts),
-      'nextRetryAtUtc': serializer.toJson<DateTime?>(nextRetryAtUtc),
-      'lastError': serializer.toJson<String?>(lastError),
-      'createdAtUtc': serializer.toJson<DateTime>(createdAtUtc),
-    };
-  }
-
-  SyncOutboxRow copyWith({
-    String? id,
-    String? ownerId,
-    String? entityType,
-    String? entityId,
-    String? operation,
-    int? payloadRevision,
-    int? attempts,
-    Value<DateTime?> nextRetryAtUtc = const Value.absent(),
-    Value<String?> lastError = const Value.absent(),
-    DateTime? createdAtUtc,
-  }) => SyncOutboxRow(
-    id: id ?? this.id,
-    ownerId: ownerId ?? this.ownerId,
-    entityType: entityType ?? this.entityType,
-    entityId: entityId ?? this.entityId,
-    operation: operation ?? this.operation,
-    payloadRevision: payloadRevision ?? this.payloadRevision,
-    attempts: attempts ?? this.attempts,
-    nextRetryAtUtc: nextRetryAtUtc.present
-        ? nextRetryAtUtc.value
-        : this.nextRetryAtUtc,
-    lastError: lastError.present ? lastError.value : this.lastError,
-    createdAtUtc: createdAtUtc ?? this.createdAtUtc,
-  );
-  SyncOutboxRow copyWithCompanion(SyncOutboxCompanion data) {
-    return SyncOutboxRow(
-      id: data.id.present ? data.id.value : this.id,
-      ownerId: data.ownerId.present ? data.ownerId.value : this.ownerId,
-      entityType: data.entityType.present
-          ? data.entityType.value
-          : this.entityType,
-      entityId: data.entityId.present ? data.entityId.value : this.entityId,
-      operation: data.operation.present ? data.operation.value : this.operation,
-      payloadRevision: data.payloadRevision.present
-          ? data.payloadRevision.value
-          : this.payloadRevision,
-      attempts: data.attempts.present ? data.attempts.value : this.attempts,
-      nextRetryAtUtc: data.nextRetryAtUtc.present
-          ? data.nextRetryAtUtc.value
-          : this.nextRetryAtUtc,
-      lastError: data.lastError.present ? data.lastError.value : this.lastError,
-      createdAtUtc: data.createdAtUtc.present
-          ? data.createdAtUtc.value
-          : this.createdAtUtc,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('SyncOutboxRow(')
-          ..write('id: $id, ')
-          ..write('ownerId: $ownerId, ')
-          ..write('entityType: $entityType, ')
-          ..write('entityId: $entityId, ')
-          ..write('operation: $operation, ')
-          ..write('payloadRevision: $payloadRevision, ')
-          ..write('attempts: $attempts, ')
-          ..write('nextRetryAtUtc: $nextRetryAtUtc, ')
-          ..write('lastError: $lastError, ')
-          ..write('createdAtUtc: $createdAtUtc')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(
-    id,
-    ownerId,
-    entityType,
-    entityId,
-    operation,
-    payloadRevision,
-    attempts,
-    nextRetryAtUtc,
-    lastError,
-    createdAtUtc,
-  );
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is SyncOutboxRow &&
-          other.id == this.id &&
-          other.ownerId == this.ownerId &&
-          other.entityType == this.entityType &&
-          other.entityId == this.entityId &&
-          other.operation == this.operation &&
-          other.payloadRevision == this.payloadRevision &&
-          other.attempts == this.attempts &&
-          other.nextRetryAtUtc == this.nextRetryAtUtc &&
-          other.lastError == this.lastError &&
-          other.createdAtUtc == this.createdAtUtc);
-}
-
-class SyncOutboxCompanion extends UpdateCompanion<SyncOutboxRow> {
-  final Value<String> id;
-  final Value<String> ownerId;
-  final Value<String> entityType;
-  final Value<String> entityId;
-  final Value<String> operation;
-  final Value<int> payloadRevision;
-  final Value<int> attempts;
-  final Value<DateTime?> nextRetryAtUtc;
-  final Value<String?> lastError;
-  final Value<DateTime> createdAtUtc;
-  final Value<int> rowid;
-  const SyncOutboxCompanion({
-    this.id = const Value.absent(),
-    this.ownerId = const Value.absent(),
-    this.entityType = const Value.absent(),
-    this.entityId = const Value.absent(),
-    this.operation = const Value.absent(),
-    this.payloadRevision = const Value.absent(),
-    this.attempts = const Value.absent(),
-    this.nextRetryAtUtc = const Value.absent(),
-    this.lastError = const Value.absent(),
-    this.createdAtUtc = const Value.absent(),
-    this.rowid = const Value.absent(),
-  });
-  SyncOutboxCompanion.insert({
-    required String id,
-    required String ownerId,
-    required String entityType,
-    required String entityId,
-    required String operation,
-    this.payloadRevision = const Value.absent(),
-    this.attempts = const Value.absent(),
-    this.nextRetryAtUtc = const Value.absent(),
-    this.lastError = const Value.absent(),
-    required DateTime createdAtUtc,
-    this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       ownerId = Value(ownerId),
-       entityType = Value(entityType),
-       entityId = Value(entityId),
-       operation = Value(operation),
-       createdAtUtc = Value(createdAtUtc);
-  static Insertable<SyncOutboxRow> custom({
-    Expression<String>? id,
-    Expression<String>? ownerId,
-    Expression<String>? entityType,
-    Expression<String>? entityId,
-    Expression<String>? operation,
-    Expression<int>? payloadRevision,
-    Expression<int>? attempts,
-    Expression<DateTime>? nextRetryAtUtc,
-    Expression<String>? lastError,
-    Expression<DateTime>? createdAtUtc,
-    Expression<int>? rowid,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (ownerId != null) 'owner_id': ownerId,
-      if (entityType != null) 'entity_type': entityType,
-      if (entityId != null) 'entity_id': entityId,
-      if (operation != null) 'operation': operation,
-      if (payloadRevision != null) 'payload_revision': payloadRevision,
-      if (attempts != null) 'attempts': attempts,
-      if (nextRetryAtUtc != null) 'next_retry_at_utc': nextRetryAtUtc,
-      if (lastError != null) 'last_error': lastError,
-      if (createdAtUtc != null) 'created_at_utc': createdAtUtc,
-      if (rowid != null) 'rowid': rowid,
-    });
-  }
-
-  SyncOutboxCompanion copyWith({
-    Value<String>? id,
-    Value<String>? ownerId,
-    Value<String>? entityType,
-    Value<String>? entityId,
-    Value<String>? operation,
-    Value<int>? payloadRevision,
-    Value<int>? attempts,
-    Value<DateTime?>? nextRetryAtUtc,
-    Value<String?>? lastError,
-    Value<DateTime>? createdAtUtc,
-    Value<int>? rowid,
-  }) {
-    return SyncOutboxCompanion(
-      id: id ?? this.id,
-      ownerId: ownerId ?? this.ownerId,
-      entityType: entityType ?? this.entityType,
-      entityId: entityId ?? this.entityId,
-      operation: operation ?? this.operation,
-      payloadRevision: payloadRevision ?? this.payloadRevision,
-      attempts: attempts ?? this.attempts,
-      nextRetryAtUtc: nextRetryAtUtc ?? this.nextRetryAtUtc,
-      lastError: lastError ?? this.lastError,
-      createdAtUtc: createdAtUtc ?? this.createdAtUtc,
-      rowid: rowid ?? this.rowid,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<String>(id.value);
-    }
-    if (ownerId.present) {
-      map['owner_id'] = Variable<String>(ownerId.value);
-    }
-    if (entityType.present) {
-      map['entity_type'] = Variable<String>(entityType.value);
-    }
-    if (entityId.present) {
-      map['entity_id'] = Variable<String>(entityId.value);
-    }
-    if (operation.present) {
-      map['operation'] = Variable<String>(operation.value);
-    }
-    if (payloadRevision.present) {
-      map['payload_revision'] = Variable<int>(payloadRevision.value);
-    }
-    if (attempts.present) {
-      map['attempts'] = Variable<int>(attempts.value);
-    }
-    if (nextRetryAtUtc.present) {
-      map['next_retry_at_utc'] = Variable<DateTime>(nextRetryAtUtc.value);
-    }
-    if (lastError.present) {
-      map['last_error'] = Variable<String>(lastError.value);
-    }
-    if (createdAtUtc.present) {
-      map['created_at_utc'] = Variable<DateTime>(createdAtUtc.value);
-    }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('SyncOutboxCompanion(')
-          ..write('id: $id, ')
-          ..write('ownerId: $ownerId, ')
-          ..write('entityType: $entityType, ')
-          ..write('entityId: $entityId, ')
-          ..write('operation: $operation, ')
-          ..write('payloadRevision: $payloadRevision, ')
-          ..write('attempts: $attempts, ')
-          ..write('nextRetryAtUtc: $nextRetryAtUtc, ')
-          ..write('lastError: $lastError, ')
-          ..write('createdAtUtc: $createdAtUtc, ')
-          ..write('rowid: $rowid')
-          ..write(')'))
-        .toString();
-  }
-}
-
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -3784,7 +2907,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $UserPreferencesTable userPreferences = $UserPreferencesTable(
     this,
   );
-  late final $SyncOutboxTable syncOutbox = $SyncOutboxTable(this);
   late final Index notesOwnerDeletedUpdated = Index(
     'notes_owner_deleted_updated',
     'CREATE INDEX notes_owner_deleted_updated ON notes (owner_id, deleted_at_utc, updated_at_utc)',
@@ -3817,7 +2939,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     attachments,
     reminders,
     userPreferences,
-    syncOutbox,
     notesOwnerDeletedUpdated,
     notesOwnerType,
     attachmentsNote,
@@ -3871,7 +2992,6 @@ typedef $$UsersTableCreateCompanionBuilder = UsersCompanion Function({
   required String salt,
   required String hashParams,
   Value<String?> avatarLocalPath,
-  Value<String?> firebaseUid,
   required DateTime createdAtUtc,
   required DateTime updatedAtUtc,
   Value<int> rowid,
@@ -3884,7 +3004,6 @@ typedef $$UsersTableUpdateCompanionBuilder = UsersCompanion Function({
   Value<String> salt,
   Value<String> hashParams,
   Value<String?> avatarLocalPath,
-  Value<String?> firebaseUid,
   Value<DateTime> createdAtUtc,
   Value<DateTime> updatedAtUtc,
   Value<int> rowid,
@@ -3992,11 +3111,6 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
 
   ColumnFilters<String> get avatarLocalPath => $composableBuilder(
     column: $table.avatarLocalPath,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get firebaseUid => $composableBuilder(
-    column: $table.firebaseUid,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -4130,11 +3244,6 @@ class $$UsersTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get firebaseUid => $composableBuilder(
-    column: $table.firebaseUid,
-    builder: (column) => ColumnOrderings(column),
-  );
-
   ColumnOrderings<DateTime> get createdAtUtc => $composableBuilder(
     column: $table.createdAtUtc,
     builder: (column) => ColumnOrderings(column),
@@ -4183,11 +3292,6 @@ class $$UsersTableAnnotationComposer
 
   GeneratedColumn<String> get avatarLocalPath => $composableBuilder(
     column: $table.avatarLocalPath,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<String> get firebaseUid => $composableBuilder(
-    column: $table.firebaseUid,
     builder: (column) => column,
   );
 
@@ -4316,7 +3420,6 @@ class $$UsersTableTableManager
                 Value<String> salt = const Value.absent(),
                 Value<String> hashParams = const Value.absent(),
                 Value<String?> avatarLocalPath = const Value.absent(),
-                Value<String?> firebaseUid = const Value.absent(),
                 Value<DateTime> createdAtUtc = const Value.absent(),
                 Value<DateTime> updatedAtUtc = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
@@ -4328,7 +3431,6 @@ class $$UsersTableTableManager
                 salt: salt,
                 hashParams: hashParams,
                 avatarLocalPath: avatarLocalPath,
-                firebaseUid: firebaseUid,
                 createdAtUtc: createdAtUtc,
                 updatedAtUtc: updatedAtUtc,
                 rowid: rowid,
@@ -4342,7 +3444,6 @@ class $$UsersTableTableManager
                 required String salt,
                 required String hashParams,
                 Value<String?> avatarLocalPath = const Value.absent(),
-                Value<String?> firebaseUid = const Value.absent(),
                 required DateTime createdAtUtc,
                 required DateTime updatedAtUtc,
                 Value<int> rowid = const Value.absent(),
@@ -4354,7 +3455,6 @@ class $$UsersTableTableManager
                 salt: salt,
                 hashParams: hashParams,
                 avatarLocalPath: avatarLocalPath,
-                firebaseUid: firebaseUid,
                 createdAtUtc: createdAtUtc,
                 updatedAtUtc: updatedAtUtc,
                 rowid: rowid,
@@ -4480,8 +3580,6 @@ typedef $$NotesTableCreateCompanionBuilder = NotesCompanion Function({
   required DateTime createdAtUtc,
   required DateTime updatedAtUtc,
   Value<DateTime?> deletedAtUtc,
-  Value<int> revision,
-  Value<String> syncState,
   Value<int> rowid,
 });
 typedef $$NotesTableUpdateCompanionBuilder = NotesCompanion Function({
@@ -4496,8 +3594,6 @@ typedef $$NotesTableUpdateCompanionBuilder = NotesCompanion Function({
   Value<DateTime> createdAtUtc,
   Value<DateTime> updatedAtUtc,
   Value<DateTime?> deletedAtUtc,
-  Value<int> revision,
-  Value<String> syncState,
   Value<int> rowid,
 });
 
@@ -4614,16 +3710,6 @@ class $$NotesTableFilterComposer extends Composer<_$AppDatabase, $NotesTable> {
 
   ColumnFilters<DateTime> get deletedAtUtc => $composableBuilder(
     column: $table.deletedAtUtc,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<int> get revision => $composableBuilder(
-    column: $table.revision,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get syncState => $composableBuilder(
-    column: $table.syncState,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -4760,16 +3846,6 @@ class $$NotesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<int> get revision => $composableBuilder(
-    column: $table.revision,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get syncState => $composableBuilder(
-    column: $table.syncState,
-    builder: (column) => ColumnOrderings(column),
-  );
-
   $$UsersTableOrderingComposer get ownerId {
     final $$UsersTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -4840,12 +3916,6 @@ class $$NotesTableAnnotationComposer
     column: $table.deletedAtUtc,
     builder: (column) => column,
   );
-
-  GeneratedColumn<int> get revision =>
-      $composableBuilder(column: $table.revision, builder: (column) => column);
-
-  GeneratedColumn<String> get syncState =>
-      $composableBuilder(column: $table.syncState, builder: (column) => column);
 
   $$UsersTableAnnotationComposer get ownerId {
     final $$UsersTableAnnotationComposer composer = $composerBuilder(
@@ -4964,8 +4034,6 @@ class $$NotesTableTableManager
                 Value<DateTime> createdAtUtc = const Value.absent(),
                 Value<DateTime> updatedAtUtc = const Value.absent(),
                 Value<DateTime?> deletedAtUtc = const Value.absent(),
-                Value<int> revision = const Value.absent(),
-                Value<String> syncState = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => NotesCompanion(
                 id: id,
@@ -4979,8 +4047,6 @@ class $$NotesTableTableManager
                 createdAtUtc: createdAtUtc,
                 updatedAtUtc: updatedAtUtc,
                 deletedAtUtc: deletedAtUtc,
-                revision: revision,
-                syncState: syncState,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -4996,8 +4062,6 @@ class $$NotesTableTableManager
                 required DateTime createdAtUtc,
                 required DateTime updatedAtUtc,
                 Value<DateTime?> deletedAtUtc = const Value.absent(),
-                Value<int> revision = const Value.absent(),
-                Value<String> syncState = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => NotesCompanion.insert(
                 id: id,
@@ -5011,8 +4075,6 @@ class $$NotesTableTableManager
                 createdAtUtc: createdAtUtc,
                 updatedAtUtc: updatedAtUtc,
                 deletedAtUtc: deletedAtUtc,
-                revision: revision,
-                syncState: syncState,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -5146,8 +4208,6 @@ typedef $$AttachmentsTableCreateCompanionBuilder =
       Value<int> byteSize,
       Value<String?> checksum,
       Value<int?> durationMs,
-      Value<String?> remoteStoragePath,
-      Value<String> syncState,
       Value<DateTime?> deletedAtUtc,
       Value<int> rowid,
     });
@@ -5162,8 +4222,6 @@ typedef $$AttachmentsTableUpdateCompanionBuilder =
       Value<int> byteSize,
       Value<String?> checksum,
       Value<int?> durationMs,
-      Value<String?> remoteStoragePath,
-      Value<String> syncState,
       Value<DateTime?> deletedAtUtc,
       Value<int> rowid,
     });
@@ -5236,16 +4294,6 @@ class $$AttachmentsTableFilterComposer
 
   ColumnFilters<int> get durationMs => $composableBuilder(
     column: $table.durationMs,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get remoteStoragePath => $composableBuilder(
-    column: $table.remoteStoragePath,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get syncState => $composableBuilder(
-    column: $table.syncState,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -5327,16 +4375,6 @@ class $$AttachmentsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get remoteStoragePath => $composableBuilder(
-    column: $table.remoteStoragePath,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get syncState => $composableBuilder(
-    column: $table.syncState,
-    builder: (column) => ColumnOrderings(column),
-  );
-
   ColumnOrderings<DateTime> get deletedAtUtc => $composableBuilder(
     column: $table.deletedAtUtc,
     builder: (column) => ColumnOrderings(column),
@@ -5405,14 +4443,6 @@ class $$AttachmentsTableAnnotationComposer
     builder: (column) => column,
   );
 
-  GeneratedColumn<String> get remoteStoragePath => $composableBuilder(
-    column: $table.remoteStoragePath,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<String> get syncState =>
-      $composableBuilder(column: $table.syncState, builder: (column) => column);
-
   GeneratedColumn<DateTime> get deletedAtUtc => $composableBuilder(
     column: $table.deletedAtUtc,
     builder: (column) => column,
@@ -5479,8 +4509,6 @@ class $$AttachmentsTableTableManager
                 Value<int> byteSize = const Value.absent(),
                 Value<String?> checksum = const Value.absent(),
                 Value<int?> durationMs = const Value.absent(),
-                Value<String?> remoteStoragePath = const Value.absent(),
-                Value<String> syncState = const Value.absent(),
                 Value<DateTime?> deletedAtUtc = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => AttachmentsCompanion(
@@ -5493,8 +4521,6 @@ class $$AttachmentsTableTableManager
                 byteSize: byteSize,
                 checksum: checksum,
                 durationMs: durationMs,
-                remoteStoragePath: remoteStoragePath,
-                syncState: syncState,
                 deletedAtUtc: deletedAtUtc,
                 rowid: rowid,
               ),
@@ -5509,8 +4535,6 @@ class $$AttachmentsTableTableManager
                 Value<int> byteSize = const Value.absent(),
                 Value<String?> checksum = const Value.absent(),
                 Value<int?> durationMs = const Value.absent(),
-                Value<String?> remoteStoragePath = const Value.absent(),
-                Value<String> syncState = const Value.absent(),
                 Value<DateTime?> deletedAtUtc = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => AttachmentsCompanion.insert(
@@ -5523,8 +4547,6 @@ class $$AttachmentsTableTableManager
                 byteSize: byteSize,
                 checksum: checksum,
                 durationMs: durationMs,
-                remoteStoragePath: remoteStoragePath,
-                syncState: syncState,
                 deletedAtUtc: deletedAtUtc,
                 rowid: rowid,
               ),
@@ -6423,316 +5445,6 @@ typedef $$UserPreferencesTableProcessedTableManager =
       UserPreferenceRow,
       PrefetchHooks Function({bool ownerId})
     >;
-typedef $$SyncOutboxTableCreateCompanionBuilder = SyncOutboxCompanion Function({
-  required String id,
-  required String ownerId,
-  required String entityType,
-  required String entityId,
-  required String operation,
-  Value<int> payloadRevision,
-  Value<int> attempts,
-  Value<DateTime?> nextRetryAtUtc,
-  Value<String?> lastError,
-  required DateTime createdAtUtc,
-  Value<int> rowid,
-});
-typedef $$SyncOutboxTableUpdateCompanionBuilder = SyncOutboxCompanion Function({
-  Value<String> id,
-  Value<String> ownerId,
-  Value<String> entityType,
-  Value<String> entityId,
-  Value<String> operation,
-  Value<int> payloadRevision,
-  Value<int> attempts,
-  Value<DateTime?> nextRetryAtUtc,
-  Value<String?> lastError,
-  Value<DateTime> createdAtUtc,
-  Value<int> rowid,
-});
-
-class $$SyncOutboxTableFilterComposer
-    extends Composer<_$AppDatabase, $SyncOutboxTable> {
-  $$SyncOutboxTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<String> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get ownerId => $composableBuilder(
-    column: $table.ownerId,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get entityType => $composableBuilder(
-    column: $table.entityType,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get entityId => $composableBuilder(
-    column: $table.entityId,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get operation => $composableBuilder(
-    column: $table.operation,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<int> get payloadRevision => $composableBuilder(
-    column: $table.payloadRevision,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<int> get attempts => $composableBuilder(
-    column: $table.attempts,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<DateTime> get nextRetryAtUtc => $composableBuilder(
-    column: $table.nextRetryAtUtc,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get lastError => $composableBuilder(
-    column: $table.lastError,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<DateTime> get createdAtUtc => $composableBuilder(
-    column: $table.createdAtUtc,
-    builder: (column) => ColumnFilters(column),
-  );
-}
-
-class $$SyncOutboxTableOrderingComposer
-    extends Composer<_$AppDatabase, $SyncOutboxTable> {
-  $$SyncOutboxTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<String> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get ownerId => $composableBuilder(
-    column: $table.ownerId,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get entityType => $composableBuilder(
-    column: $table.entityType,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get entityId => $composableBuilder(
-    column: $table.entityId,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get operation => $composableBuilder(
-    column: $table.operation,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get payloadRevision => $composableBuilder(
-    column: $table.payloadRevision,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get attempts => $composableBuilder(
-    column: $table.attempts,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<DateTime> get nextRetryAtUtc => $composableBuilder(
-    column: $table.nextRetryAtUtc,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get lastError => $composableBuilder(
-    column: $table.lastError,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<DateTime> get createdAtUtc => $composableBuilder(
-    column: $table.createdAtUtc,
-    builder: (column) => ColumnOrderings(column),
-  );
-}
-
-class $$SyncOutboxTableAnnotationComposer
-    extends Composer<_$AppDatabase, $SyncOutboxTable> {
-  $$SyncOutboxTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<String> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get ownerId =>
-      $composableBuilder(column: $table.ownerId, builder: (column) => column);
-
-  GeneratedColumn<String> get entityType => $composableBuilder(
-    column: $table.entityType,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<String> get entityId =>
-      $composableBuilder(column: $table.entityId, builder: (column) => column);
-
-  GeneratedColumn<String> get operation =>
-      $composableBuilder(column: $table.operation, builder: (column) => column);
-
-  GeneratedColumn<int> get payloadRevision => $composableBuilder(
-    column: $table.payloadRevision,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<int> get attempts =>
-      $composableBuilder(column: $table.attempts, builder: (column) => column);
-
-  GeneratedColumn<DateTime> get nextRetryAtUtc => $composableBuilder(
-    column: $table.nextRetryAtUtc,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<String> get lastError =>
-      $composableBuilder(column: $table.lastError, builder: (column) => column);
-
-  GeneratedColumn<DateTime> get createdAtUtc => $composableBuilder(
-    column: $table.createdAtUtc,
-    builder: (column) => column,
-  );
-}
-
-class $$SyncOutboxTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $SyncOutboxTable,
-          SyncOutboxRow,
-          $$SyncOutboxTableFilterComposer,
-          $$SyncOutboxTableOrderingComposer,
-          $$SyncOutboxTableAnnotationComposer,
-          $$SyncOutboxTableCreateCompanionBuilder,
-          $$SyncOutboxTableUpdateCompanionBuilder,
-          (
-            SyncOutboxRow,
-            BaseReferences<_$AppDatabase, $SyncOutboxTable, SyncOutboxRow>,
-          ),
-          SyncOutboxRow,
-          PrefetchHooks Function()
-        > {
-  $$SyncOutboxTableTableManager(_$AppDatabase db, $SyncOutboxTable table)
-    : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$SyncOutboxTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$SyncOutboxTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$SyncOutboxTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<String> id = const Value.absent(),
-                Value<String> ownerId = const Value.absent(),
-                Value<String> entityType = const Value.absent(),
-                Value<String> entityId = const Value.absent(),
-                Value<String> operation = const Value.absent(),
-                Value<int> payloadRevision = const Value.absent(),
-                Value<int> attempts = const Value.absent(),
-                Value<DateTime?> nextRetryAtUtc = const Value.absent(),
-                Value<String?> lastError = const Value.absent(),
-                Value<DateTime> createdAtUtc = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
-              }) => SyncOutboxCompanion(
-                id: id,
-                ownerId: ownerId,
-                entityType: entityType,
-                entityId: entityId,
-                operation: operation,
-                payloadRevision: payloadRevision,
-                attempts: attempts,
-                nextRetryAtUtc: nextRetryAtUtc,
-                lastError: lastError,
-                createdAtUtc: createdAtUtc,
-                rowid: rowid,
-              ),
-          createCompanionCallback:
-              ({
-                required String id,
-                required String ownerId,
-                required String entityType,
-                required String entityId,
-                required String operation,
-                Value<int> payloadRevision = const Value.absent(),
-                Value<int> attempts = const Value.absent(),
-                Value<DateTime?> nextRetryAtUtc = const Value.absent(),
-                Value<String?> lastError = const Value.absent(),
-                required DateTime createdAtUtc,
-                Value<int> rowid = const Value.absent(),
-              }) => SyncOutboxCompanion.insert(
-                id: id,
-                ownerId: ownerId,
-                entityType: entityType,
-                entityId: entityId,
-                operation: operation,
-                payloadRevision: payloadRevision,
-                attempts: attempts,
-                nextRetryAtUtc: nextRetryAtUtc,
-                lastError: lastError,
-                createdAtUtc: createdAtUtc,
-                rowid: rowid,
-              ),
-          withReferenceMapper: (p0) => p0
-              .map(
-                (e) => (
-                  e.readTable<$SyncOutboxTable, SyncOutboxRow>(table),
-                  BaseReferences<
-                    _$AppDatabase,
-                    $SyncOutboxTable,
-                    SyncOutboxRow
-                  >(db, table, e),
-                ),
-              )
-              .toList(),
-          prefetchHooksCallback: null,
-        ),
-      );
-}
-
-typedef $$SyncOutboxTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $SyncOutboxTable,
-      SyncOutboxRow,
-      $$SyncOutboxTableFilterComposer,
-      $$SyncOutboxTableOrderingComposer,
-      $$SyncOutboxTableAnnotationComposer,
-      $$SyncOutboxTableCreateCompanionBuilder,
-      $$SyncOutboxTableUpdateCompanionBuilder,
-      (
-        SyncOutboxRow,
-        BaseReferences<_$AppDatabase, $SyncOutboxTable, SyncOutboxRow>,
-      ),
-      SyncOutboxRow,
-      PrefetchHooks Function()
-    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -6747,6 +5459,4 @@ class $AppDatabaseManager {
       $$RemindersTableTableManager(_db, _db.reminders);
   $$UserPreferencesTableTableManager get userPreferences =>
       $$UserPreferencesTableTableManager(_db, _db.userPreferences);
-  $$SyncOutboxTableTableManager get syncOutbox =>
-      $$SyncOutboxTableTableManager(_db, _db.syncOutbox);
 }

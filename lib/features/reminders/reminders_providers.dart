@@ -16,6 +16,10 @@ final Provider<RemindersRepository> remindersRepositoryProvider =
       ),
     );
 
+final FutureProvider<bool> notificationsEnabledProvider = FutureProvider<bool>(
+  (Ref ref) => ref.watch(notificationServiceProvider).areNotificationsEnabled(),
+);
+
 final reminderProvider = StreamProvider.family<NoteReminder?, String>((
   Ref ref,
   String noteId,

@@ -15,6 +15,24 @@ final class NotificationService {
       FlutterLocalNotificationsPlugin();
   bool _initialized = false;
 
+  void Function(String noteId)? _onOpenNote;
+  String? _pendingNoteId;
+
+  set onOpenNote(void Function(String noteId)? callback) {
+    _onOpenNote = callback;
+    final String? pending = _pendingNoteId;
+    if (callback != null && pending != null) {
+      _pendingNoteId = null;
+      callback(pending);
+    }
+  }
+
+  String? takePendingNoteId() {
+    final String? pending = _pendingNoteId;
+    _pendingNoteId = null;
+    return pending;
+  }
+
   Future<void> init() async {
     if (_initialized) {
       return;
@@ -37,8 +55,38 @@ final class NotificationService {
     );
     await _plugin.initialize(
       settings: const InitializationSettings(android: android, iOS: darwin),
+      onDidReceiveNotificationResponse: _handleResponse,
     );
     _initialized = true;
+    await _captureLaunchPayload();
+  }
+
+  void _handleResponse(NotificationResponse response) {
+    final String? noteId = response.payload;
+    if (noteId == null || noteId.isEmpty) {
+      return;
+    }
+    final void Function(String noteId)? callback = _onOpenNote;
+    if (callback == null) {
+      _pendingNoteId = noteId;
+    } else {
+      callback(noteId);
+    }
+  }
+
+  Future<void> _captureLaunchPayload() async {
+    try {
+      final NotificationAppLaunchDetails? details = await _plugin
+          .getNotificationAppLaunchDetails();
+      final String? noteId = details?.notificationResponse?.payload;
+      if (details?.didNotificationLaunchApp == true &&
+          noteId != null &&
+          noteId.isNotEmpty) {
+        _pendingNoteId = noteId;
+      }
+    } catch (error, stack) {
+      _logger.error('Could not read notification launch details', error, stack);
+    }
   }
 
   Future<bool> requestPermissions() async {
@@ -62,6 +110,26 @@ final class NotificationService {
         sound: true,
       );
       return granted ?? true;
+    }
+    return true;
+  }
+
+  Future<bool> areNotificationsEnabled() async {
+    await init();
+    final AndroidFlutterLocalNotificationsPlugin? android = _plugin
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >();
+    if (android != null) {
+      return await android.areNotificationsEnabled() ?? false;
+    }
+    final IOSFlutterLocalNotificationsPlugin? ios = _plugin
+        .resolvePlatformSpecificImplementation<
+          IOSFlutterLocalNotificationsPlugin
+        >();
+    if (ios != null) {
+      final NotificationsEnabledOptions? options = await ios.checkPermissions();
+      return options?.isEnabled ?? false;
     }
     return true;
   }

@@ -47,6 +47,14 @@ class SettingsController extends AsyncNotifier<AppSettings> {
         .saveSortOrder(_userId, sortOrder);
   }
 
+  Future<void> setFontPreset(String fontPreset) async {
+    final AppSettings current = state.value ?? const AppSettings();
+    state = AsyncData<AppSettings>(current.copyWith(fontPreset: fontPreset));
+    await ref
+        .read(settingsRepositoryProvider)
+        .saveFontPreset(_userId, fontPreset);
+  }
+
   String? get _userId => ref.read(authControllerProvider).value?.id;
 }
 

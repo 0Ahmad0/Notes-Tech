@@ -8,6 +8,7 @@
 [![State](https://img.shields.io/badge/State-Riverpod-6C47FF)](https://riverpod.dev)
 [![Database](https://img.shields.io/badge/Database-Drift%20%2F%20SQLite-003B57)](https://drift.simonbinder.eu)
 [![Status](https://img.shields.io/badge/Phase-1%20Local%20MVP-orange)](#roadmap)
+[![CI](https://github.com/0Ahmad0/Notes-Tech/actions/workflows/ci.yml/badge.svg)](https://github.com/0Ahmad0/Notes-Tech/actions/workflows/ci.yml)
 
 Notes-Tech is a Flutter notes application designed around an **offline-first** architecture. Your notes live on your device first — no account server, no internet dependency, no tracking. The long-term goal is optional cloud sync through Firebase without compromising the local-only experience.
 
@@ -20,15 +21,17 @@ Notes-Tech is a Flutter notes application designed around an **offline-first** a
 - **Secure by design** — passwords are hashed with PBKDF2-HMAC-SHA256 and a per-user salt; plaintext passwords are never stored
 - **Bilingual UI** — full English and Arabic support with RTL layout
 - **Light & dark themes** — system, light, and dark modes, persisted per user
+- **Font presets** — system font or bundled IBM Plex Sans Arabic, persisted per user
+- **Local-only privacy** — notes never leave the device; the app states this plainly in Settings
 - **Apple-inspired design** — generous spacing, rounded cards, subtle depth, and smooth transitions
-- **Extensible data model** — notes, attachments, reminders, preferences, and a sync outbox ready for Phase 2
+- **Extensible data model** — notes, attachments, reminders, and per-user preferences, with sync-ready client UUIDs
 - **Bundled SQLite** — SQLite is compiled from source for mobile, so builds do not depend on runtime downloads
 
 ---
 
 ## App preview
 
-The current build ships a polished splash screen, local authentication, and the app shell. Notes CRUD and media capture arrive in the next milestones.
+The current build ships a polished splash screen, local authentication, the full notes experience (text, audio, image, and document notes), trash, reminders, and settings.
 
 ```text
 Splash  ->  Login / Register  ->  Home (notes shell)  ->  Settings / Profile
@@ -73,10 +76,11 @@ lib/
 │   └── widgets/                  # reusable UI
 ├── features/
 │   ├── auth/                     # domain / data / presentation
-│   ├── notes/                    # notes CRUD (in progress)
+│   ├── notes/                    # notes CRUD, media, trash
 │   ├── profile/
 │   ├── settings/
-│   └── ...                       # media, reminders, sync
+│   ├── reminders/                # local notifications
+│   └── ...                       # profile, settings
 └── l10n/                         # ARB files + generated localizations
 ```
 
@@ -89,7 +93,6 @@ lib/
 | `attachments` | Metadata for app-private media files |
 | `reminders` | Local notification schedules |
 | `user_preferences` | Per-user theme, language, font, view mode, sort order |
-| `sync_outbox` | Reserved for Phase 2 synchronization |
 
 All timestamps are stored in UTC. Every note query is scoped by `ownerId`, so local accounts cannot see each other's data.
 
@@ -124,10 +127,16 @@ flutter build apk --release
 ### Run the checks
 
 ```bash
-dart format --output=none --set-exit-if-changed .
+dart format --output=none --set-exit-if-changed lib test
+flutter gen-l10n
 flutter analyze
 flutter test
 ```
+
+The suite covers password hashing, note repository behavior against an in-memory
+Drift database (ownership isolation, search, filters, sorting, trash, cascades),
+widget tests for login and settings, and accessibility guidelines for settings.
+The same commands run in GitHub Actions on every push and pull request.
 
 > **SQLite note:** `third_party/sqlite/sqlite3.c` is compiled by the `sqlite3` build hook for Android and iOS. Windows unit tests use the system `winsqlite3.dll`, so no network access is needed at build time.
 
@@ -154,11 +163,12 @@ flutter test
 - [x] Local registration, login, session restore, logout
 - [x] Change password and basic profile
 - [x] App icon and branded splash screen
-- [ ] Notes CRUD, grid/list view, filters, search, colors
-- [ ] Audio, image, and document notes
-- [ ] Local reminders and notification permissions
-- [ ] Settings polish, accessibility, and performance tuning
-- [ ] QA and `v0.1.0-local` release
+- [x] Notes CRUD, grid/list view, filters, search, colors
+- [x] Audio, image, and document notes
+- [x] Local reminders and notification permissions
+- [x] Settings polish and accessibility
+- [ ] Performance tuning on physical devices
+- [ ] Manual QA and `v0.1.0-local` release
 
 ### Phase 2 — Firebase & cross-device sync
 

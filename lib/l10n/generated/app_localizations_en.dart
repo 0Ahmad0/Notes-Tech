@@ -323,6 +323,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String get audioPlaybackFailed => 'Could not play this audio.';
 
   @override
+  String get playAudio => 'Play audio';
+
+  @override
+  String get pauseAudio => 'Pause audio';
+
+  @override
+  String get colorDefault => 'Default';
+
+  @override
+  String get colorYellow => 'Yellow';
+
+  @override
+  String get colorMint => 'Mint';
+
+  @override
+  String get colorSky => 'Sky';
+
+  @override
+  String get colorLavender => 'Lavender';
+
+  @override
+  String get colorPeach => 'Peach';
+
+  @override
+  String get colorRose => 'Rose';
+
+  @override
+  String get colorSlate => 'Slate';
+
+  @override
   String get reminders => 'Reminder';
 
   @override
@@ -348,6 +378,34 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get notificationsDisabled =>
       'Notifications are disabled for Notes-Tech.';
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get notificationsOn => 'Notifications are enabled.';
+
+  @override
+  String get notificationsOff => 'Notifications are off.';
+
+  @override
+  String get enableNotifications => 'Enable';
+
+  @override
+  String get font => 'Font';
+
+  @override
+  String get fontSystem => 'System';
+
+  @override
+  String get fontPlexArabic => 'IBM Plex Arabic';
+
+  @override
+  String get privacy => 'Privacy';
+
+  @override
+  String get localOnlyNotice =>
+      'Your notes are stored only on this device. There is no account server or cloud backup yet, so uninstalling the app or losing the device removes your data.';
 
   @override
   String editedDate(String date) {

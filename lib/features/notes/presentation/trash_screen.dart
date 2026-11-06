@@ -20,7 +20,11 @@ class TrashScreen extends ConsumerWidget {
       body: trash.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (Object error, StackTrace stack) {
-          return Center(child: Text(l10n.unexpectedError));
+          return _TrashError(
+            message: l10n.unexpectedError,
+            retryLabel: l10n.retry,
+            onRetry: () => ref.invalidate(trashProvider),
+          );
         },
         data: (List<Note> notes) {
           if (notes.isEmpty) {
@@ -90,7 +94,7 @@ class _TrashTile extends ConsumerWidget {
             IconButton(
               tooltip: l10n.restore,
               onPressed: () async {
-                await ref.read(notesRepositoryProvider).restore(note.id);
+                await ref.read(notesRepositoryProvider).restore(note);
               },
               icon: const Icon(Icons.restore_rounded),
             ),
@@ -139,7 +143,33 @@ class _TrashTile extends ConsumerWidget {
     }
     await ref.read(remindersRepositoryProvider).cancelForNote(note.id);
     await ref.read(mediaRepositoryProvider).deleteAllForNote(note.id);
-    await ref.read(notesRepositoryProvider).deleteForever(note.id);
+    await ref.read(notesRepositoryProvider).deleteForever(note);
+  }
+}
+
+class _TrashError extends StatelessWidget {
+  const _TrashError({
+    required this.message,
+    required this.retryLabel,
+    required this.onRetry,
+  });
+
+  final String message;
+  final String retryLabel;
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text(message, textAlign: TextAlign.center),
+          const SizedBox(height: 12),
+          OutlinedButton(onPressed: onRetry, child: Text(retryLabel)),
+        ],
+      ),
+    );
   }
 }
 

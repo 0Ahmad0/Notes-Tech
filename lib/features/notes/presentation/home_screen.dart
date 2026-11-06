@@ -322,13 +322,13 @@ Future<void> _handleAction(
       }
       final ScaffoldMessengerState messenger = ScaffoldMessenger.of(context);
       await ref.read(remindersRepositoryProvider).cancelForNote(note.id);
-      await notesRepository.moveToTrash(note.id);
+      await notesRepository.moveToTrash(note);
       messenger.showSnackBar(
         SnackBar(
           content: Text(l10n.movedToTrash),
           action: SnackBarAction(
             label: l10n.undo,
-            onPressed: () => notesRepository.restore(note.id),
+            onPressed: () => notesRepository.restore(note),
           ),
         ),
       );

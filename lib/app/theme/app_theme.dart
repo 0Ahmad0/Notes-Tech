@@ -4,11 +4,13 @@ import 'app_colors.dart';
 import 'app_typography.dart';
 
 abstract final class AppTheme {
-  static ThemeData light() => _build(Brightness.light);
+  static ThemeData light({String? fontFamily}) =>
+      _build(Brightness.light, fontFamily);
 
-  static ThemeData dark() => _build(Brightness.dark);
+  static ThemeData dark({String? fontFamily}) =>
+      _build(Brightness.dark, fontFamily);
 
-  static ThemeData _build(Brightness brightness) {
+  static ThemeData _build(Brightness brightness, String? fontFamily) {
     final ColorScheme scheme = ColorScheme.fromSeed(
       seedColor: AppColors.brand,
       brightness: brightness,
@@ -19,7 +21,7 @@ abstract final class AppTheme {
       useMaterial3: true,
       brightness: brightness,
       colorScheme: scheme,
-      textTheme: AppTypography.textTheme(brightness),
+      textTheme: AppTypography.textTheme(brightness, fontFamily: fontFamily),
       scaffoldBackgroundColor: isDark
           ? const Color(0xFF0F1115)
           : const Color(0xFFF7F8FA),
@@ -32,8 +34,10 @@ abstract final class AppTheme {
             ? const Color(0xFF0F1115)
             : const Color(0xFFF7F8FA),
         surfaceTintColor: Colors.transparent,
-        titleTextStyle: AppTypography.textTheme(brightness).titleLarge
-            ?.copyWith(fontSize: 24),
+        titleTextStyle: AppTypography.textTheme(
+          brightness,
+          fontFamily: fontFamily,
+        ).titleLarge?.copyWith(fontSize: 24),
       ),
       cardTheme: CardThemeData(
         elevation: 0,
